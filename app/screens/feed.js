@@ -29,16 +29,13 @@ class feed extends Component {
         </View>
 
         <FlatList
-          key={this.state.photo_feed[i++]}
           refreshing={this.state.refresh}
           onRefresh={this.loadNew}
           data={this.state.photo_feed}
-          keyExtractor={(item, index) => {
-            index.toString();
-          }}
+          keyExtractor={(item, index) => "item" + index}
           style={styles.flatlist}
           renderItem={({ item, index }) => {
-            <View key={item.id}>
+            <View>
               <View>
                 <Text>Time ago</Text>
                 <Text>@username</Text>
@@ -52,6 +49,7 @@ class feed extends Component {
                   }}
                   style={styles.profilephoto}
                 />
+                console.log(source);
               </View>
               // view for image
               <View>
