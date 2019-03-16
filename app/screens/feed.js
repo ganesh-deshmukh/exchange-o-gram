@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 class feed extends Component {
   constructor(props) {
@@ -9,11 +9,18 @@ class feed extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text> feed </Text>
       </View>
     );
   }
 }
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+});
 export default feed;
