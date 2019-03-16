@@ -8,10 +8,12 @@ import profile from "./app/screens/profile";
 
 class App extends React.Component {
   render() {
+    // make sure app always returns AppContainer
     return <AppContainer />;
   }
 }
 
+// make navigation-module or tabs or drawer and pass it to AppContainer
 const MainStack = createBottomTabNavigator({
   Feed: {
     screen: feed
@@ -24,6 +26,7 @@ const MainStack = createBottomTabNavigator({
   }
 });
 
+// always pass your Navigation-module to AppContainer
 const AppContainer = createAppContainer(MainStack);
 
 const styles = StyleSheet.create({

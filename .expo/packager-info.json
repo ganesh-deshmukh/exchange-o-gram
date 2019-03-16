@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 7115,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "packagerPid": 6429,
+  "expoServerNgrokUrl": "https://j2-86w.anonymous.exchange-o-gram.exp.direct",
+  "packagerNgrokUrl": "https://packager.j2-86w.anonymous.exchange-o-gram.exp.direct",
+  "ngrokPid": 6500,
   "webpackServerPort": null
 }

@@ -10,7 +10,7 @@ class profile extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> profile </Text>
+        <Text> profile of user with details </Text>
       </View>
     );
   }

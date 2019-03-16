@@ -10,7 +10,7 @@ class upload extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> upload </Text>
+        <Text> upload files here </Text>
       </View>
     );
   }
