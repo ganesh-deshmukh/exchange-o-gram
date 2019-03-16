@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, FlatList } from "react-native";
 
 class feed extends Component {
   constructor(props) {
@@ -21,6 +21,7 @@ class feed extends Component {
   };
 
   render() {
+    let i = 0;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -28,6 +29,7 @@ class feed extends Component {
         </View>
 
         <FlatList
+          key={this.state.photo_feed[i++]}
           refreshing={this.state.refresh}
           onRefresh={this.loadNew}
           data={this.state.photo_feed}
@@ -36,12 +38,11 @@ class feed extends Component {
           }}
           style={styles.flatlist}
           renderItem={({ item, index }) => {
-            <View>
+            <View key={item.id}>
               <View>
                 <Text>Time ago</Text>
                 <Text>@username</Text>
               </View>
-
               <View>
                 <Image
                   source={{
@@ -52,7 +53,7 @@ class feed extends Component {
                   style={styles.profilephoto}
                 />
               </View>
-
+              // view for image
               <View>
                 <Text>Caption of post</Text>
                 <Text>View all Comments</Text>
