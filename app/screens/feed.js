@@ -27,6 +27,8 @@ class feed extends Component {
             style={styles.profilephoto}
           />
         </View>
+        <Text>Caption of post</Text>
+        <Text>View all Comments</Text>
       </View>
     );
   }
