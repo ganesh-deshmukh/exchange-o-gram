@@ -21,8 +21,37 @@ class feed extends Component {
     });
   };
 
+  _renderItem = (item, index) => {
+    console.log(item, index);
+    return (
+      <View key={index}>
+        <View>
+          <Text>Time ago</Text>
+          <Text>@username</Text>
+        </View>
+
+        <View>
+          <Image
+            source={{
+              // uri:
+              //   "https://source.unsplash.com/random/500x" +
+              //   Math.floor(Math.random() * 800 + 500)
+
+              uri: "https://source.unsplash.com/random/500x800/"
+            }}
+            style={styles.profilephoto}
+          />
+        </View>
+
+        <View>
+          <Text>Caption of post</Text>
+          <Text>View all Comments</Text>
+        </View>
+      </View>
+    );
+  };
+
   render() {
-    let i = 0;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -35,36 +64,7 @@ class feed extends Component {
           data={this.state.photo_feed}
           keyExtractor={(item, index) => "" + index}
           style={styles.flatlist}
-          renderItem={({ item, index }) => {
-            console.log("index is " + index);
-            // console.log("item is " + item);
-            // return one element for each item.
-
-            <View key={index}>
-              <View>
-                <Text>Time ago</Text>
-                <Text>@username</Text>
-              </View>
-
-              <View>
-                <Image
-                  source={{
-                    // uri:
-                    //   "https://source.unsplash.com/random/500x" +
-                    //   Math.floor(Math.random() * 800 + 500)
-
-                    uri: "https://source.unsplash.com/random/500x800/"
-                  }}
-                  style={styles.profilephoto}
-                />
-              </View>
-
-              <View>
-                <Text>Caption of post</Text>
-                <Text>View all Comments</Text>
-              </View>
-            </View>;
-          }}
+          renderItem={this._renderItem}
         />
       </View>
     );
