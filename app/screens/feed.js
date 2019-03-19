@@ -29,45 +29,21 @@ class feed extends Component {
           <Text> feed </Text>
         </View>
 
-        <View>
-          <View>
-            <Text>Time ago</Text>
-            <Text>@username</Text>
-          </View>
-
-          <View>
-            <Image
-              source={{
-                // uri:
-                //   "https://source.unsplash.com/random/500x" +
-                //   Math.floor(Math.random() * 800 + 500)
-
-                uri: "https://source.unsplash.com/random/500x800/"
-              }}
-              style={styles.profilephoto}
-            />
-          </View>
-
-          <View>
-            <Text>Caption of post</Text>
-            <Text>View all Comments</Text>
-          </View>
-        </View>
-
-        {/* <FlatList
+        <FlatList
           refreshing={this.state.refresh}
           onRefresh={this.loadNew}
           data={this.state.photo_feed}
-          keyExtractor={(item, index) => "item" + index}
+          keyExtractor={(item, index) => "" + index}
           style={styles.flatlist}
           renderItem={({ item, index }) => {
             console.log("index is " + index);
-            console.log("item is " + item);
+            // console.log("item is " + item);
             // return one element for each item.
 
             <View key={index}>
               <View>
-                <Text>Time ago</Text>k<Text>@username</Text>
+                <Text>Time ago</Text>
+                <Text>@username</Text>
               </View>
 
               <View>
@@ -89,7 +65,7 @@ class feed extends Component {
               </View>
             </View>;
           }}
-        /> */}
+        />
       </View>
     );
   }
