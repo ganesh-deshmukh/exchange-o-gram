@@ -11,6 +11,7 @@ class feed extends Component {
   }
 
   loadNew = () => {
+    console.log("LoadNew() is called");
     this.setState({
       refresh: true
     });
@@ -28,41 +29,72 @@ class feed extends Component {
           <Text> feed </Text>
         </View>
 
-        <FlatList
+        <View>
+          <View>
+            <Text>Time ago</Text>
+            <Text>@username</Text>
+          </View>
+
+          <View>
+            <Image
+              source={{
+                // uri:
+                //   "https://source.unsplash.com/random/500x" +
+                //   Math.floor(Math.random() * 800 + 500)
+
+                uri: "https://source.unsplash.com/random/500x800/"
+              }}
+              style={styles.profilephoto}
+            />
+          </View>
+
+          <View>
+            <Text>Caption of post</Text>
+            <Text>View all Comments</Text>
+          </View>
+        </View>
+
+        {/* <FlatList
           refreshing={this.state.refresh}
           onRefresh={this.loadNew}
           data={this.state.photo_feed}
           keyExtractor={(item, index) => "item" + index}
           style={styles.flatlist}
           renderItem={({ item, index }) => {
-            <View>
+            console.log("index is " + index);
+            console.log("item is " + item);
+            // return one element for each item.
+
+            <View key={index}>
               <View>
-                <Text>Time ago</Text>
-                <Text>@username</Text>
+                <Text>Time ago</Text>k<Text>@username</Text>
               </View>
+
               <View>
                 <Image
                   source={{
-                    uri:
-                      "https://source.unsplash.com/random/500x" +
-                      Math.floor(Math.random() * 800 + 500)
+                    // uri:
+                    //   "https://source.unsplash.com/random/500x" +
+                    //   Math.floor(Math.random() * 800 + 500)
+
+                    uri: "https://source.unsplash.com/random/500x800/"
                   }}
                   style={styles.profilephoto}
                 />
-                console.log(source);
               </View>
-              // view for image
+
               <View>
                 <Text>Caption of post</Text>
                 <Text>View all Comments</Text>
               </View>
             </View>;
           }}
-        />
+        /> */}
       </View>
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -82,8 +114,8 @@ const styles = StyleSheet.create({
     height: 250
   },
   flatlist: {
-    flex: 1,
-    backgroundColor: "#eee"
+    flex: 1
+    // backgroundColor: "#0ee"
   }
 });
 export default feed;
