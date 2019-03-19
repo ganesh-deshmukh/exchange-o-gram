@@ -24,28 +24,31 @@ class feed extends Component {
   _renderItem = (item, index) => {
     console.log(item, index);
     return (
-      <View key={index}>
-        <View>
-          <Text>Time ago</Text>
+      <View key={index} style={styles.flatlistImage}>
+        <View style={styles.postDetails}>
+          <Text>5 minutes ago</Text>
           <Text>@username</Text>
         </View>
 
         <View>
           <Image
             source={{
-              // uri:
-              //   "https://source.unsplash.com/random/500x" +
-              //   Math.floor(Math.random() * 800 + 500)
+              //   uri:
+              //     "https://source.unsplash.com/random/500x" +
+              //     Math.floor(Math.random() * 800 + 500)
 
-              uri: "https://source.unsplash.com/random/500x800/"
+              uri: "https://source.unsplash.com/random/500x770/"
             }}
             style={styles.profilephoto}
           />
         </View>
 
-        <View>
-          <Text>Caption of post</Text>
-          <Text>View all Comments</Text>
+        <View style={{ padding: 5 }}>
+          <Text style={{}}> #HashTag- Caption of post</Text>
+          <Text style={{ marginTop: 10, textAlign: "center" }}>
+            {" "}
+            View all Comments.....
+          </Text>
         </View>
       </View>
     );
@@ -63,7 +66,10 @@ class feed extends Component {
           onRefresh={this.loadNew}
           data={this.state.photo_feed}
           keyExtractor={(item, index) => "" + index}
-          style={styles.flatlist}
+          style={{
+            backgroundColor: "#eee"
+            // flex: 1
+          }}
           renderItem={this._renderItem}
         />
       </View>
@@ -87,11 +93,20 @@ const styles = StyleSheet.create({
   profilephoto: {
     resizeMode: "cover",
     width: "100%",
-    height: 250
+    height: 280
   },
-  flatlist: {
-    flex: 1
-    // backgroundColor: "#0ee"
+  flatlistImage: {
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderColor: "grey",
+    width: "100%",
+    overflow: "hidden",
+    marginBottom: 5
+  },
+  postDetails: {
+    padding: 5,
+    flexDirection: "row",
+    justifyContent: "space-between"
   }
 });
 export default feed;
