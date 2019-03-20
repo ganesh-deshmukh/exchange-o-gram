@@ -36,7 +36,7 @@ class feed extends Component {
 
         for (var photo in data) {
           // photo is index eg. for i in array
-          photoObj = data[photo];
+          var photoObj = data[photo];
 
           // for each photo(photoObj) in data(snapshot-value),
           // get details of each user then push details to photo-feed-array
@@ -76,19 +76,13 @@ class feed extends Component {
 
   loadNew = () => {
     console.log("LoadNew() is called");
-    this.setState({
-      refresh: true
-    });
-    this.setState({
-      photo_feed: [5, 6, 7, 8, 9],
-      refresh: false // after loading new photos [5,6,7,8,9] stop refreshing feed
-    });
+    this.loadFeed();
   };
 
   _renderItem = (item, index) => {
-    console.log(item, index);
+    console.log("item is " + item.id + "index is " + index);
     return (
-      <View key={index} style={styles.flatlistImage}>
+      <View key={item.id} style={styles.flatlistImage}>
         <View style={styles.postDetails}>
           <Text>5 minutes ago</Text>
           <Text>@username</Text>
@@ -97,11 +91,11 @@ class feed extends Component {
         <View>
           <Image
             source={{
-              //   uri:
-              //     "https://source.unsplash.com/random/500x" +
-              //     Math.floor(Math.random() * 800 + 500)
+              uri:
+                "https://source.unsplash.com/random/500x" +
+                Math.floor(Math.random() * 800 + 500)
 
-              uri: "https://source.unsplash.com/random/500x770/"
+              // uri: "https://source.unsplash.com/random/500x770/"
             }}
             style={styles.profilephoto}
           />
@@ -129,10 +123,10 @@ class feed extends Component {
           refreshing={this.state.refresh}
           onRefresh={this.loadNew}
           data={this.state.photo_feed}
-          keyExtractor={(item, index) => "" + index}
+          keyExtractor={(item, index) => item.id}
           style={{
-            backgroundColor: "#eee"
-            // flex: 1
+            backgroundColor: "#eee",
+            flex: 1
           }}
           renderItem={this._renderItem}
         />
