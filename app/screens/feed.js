@@ -79,38 +79,38 @@ class feed extends Component {
     this.loadFeed();
   };
 
-  _renderItem = (item, index) => {
-    console.log("item is " + item.id + "index is " + index);
-    return (
-      <View key={item.id} style={styles.flatlistImage}>
-        <View style={styles.postDetails}>
-          <Text>5 minutes ago</Text>
-          <Text>@username</Text>
-        </View>
+  // _renderItem = (item, index) => {
+  //   console.log("item is " + item.id + "index is " + index);
+  //   return (
+  //     <View key={item.id} style={styles.flatlistImage}>
+  //       <View style={styles.postDetails}>
+  //         <Text>5 minutes ago</Text>
+  //         <Text>@username</Text>
+  //       </View>
 
-        <View>
-          <Image
-            source={{
-              uri:
-                "https://source.unsplash.com/random/500x" +
-                Math.floor(Math.random() * 800 + 500)
+  //       <View>
+  //         <Image
+  //           source={{
+  //             uri:
+  //               "https://source.unsplash.com/random/500x" +
+  //               Math.floor(Math.random() * 800 + 500)
 
-              // uri: "https://source.unsplash.com/random/500x770/"
-            }}
-            style={styles.profilephoto}
-          />
-        </View>
+  //             // uri: "https://source.unsplash.com/random/500x770/"
+  //           }}
+  //           style={styles.profilephoto}
+  //         />
+  //       </View>
 
-        <View style={{ padding: 5 }}>
-          <Text style={{}}> #HashTag- Caption of post</Text>
-          <Text style={{ marginTop: 10, textAlign: "center" }}>
-            {" "}
-            View all Comments.....
-          </Text>
-        </View>
-      </View>
-    );
-  };
+  //       <View style={{ padding: 5 }}>
+  //         <Text style={{}}> #HashTag- Caption of post</Text>
+  //         <Text style={{ marginTop: 10, textAlign: "center" }}>
+  //           {" "}
+  //           View all Comments.....
+  //         </Text>
+  //       </View>
+  //     </View>
+  //   );
+  // };
 
   render() {
     return (
@@ -119,17 +119,47 @@ class feed extends Component {
           <Text> feed </Text>
         </View>
 
-        <FlatList
-          refreshing={this.state.refresh}
-          onRefresh={this.loadNew}
-          data={this.state.photo_feed}
-          keyExtractor={(item, index) => item.id}
-          style={{
-            backgroundColor: "#eee",
-            flex: 1
-          }}
-          renderItem={this._renderItem}
-        />
+        {this.state.loading === true ? (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <Text>Loading Screen</Text>
+          </View>
+        ) : (
+          <FlatList
+            refreshing={this.state.refresh}
+            onRefresh={this.loadNew}
+            data={this.state.photo_feed}
+            keyExtractor={(item, index) => "" + index}
+            style={{
+              backgroundColor: "#eee",
+              flex: 1
+            }}
+            renderItem={({ item, index }) => (
+              <View key={index} style={styles.flatlistImage}>
+                <View style={styles.postDetails}>
+                  <Text>{item.posted} ago</Text>
+                  <Text>@{item.author}</Text>
+                </View>
+                <View>
+                  <Image
+                    source={{
+                      uri: item.url
+                    }}
+                    style={styles.profilephoto}
+                  />
+                </View>
+                <View style={{ padding: 5 }}>
+                  <Text style={{}}> #{item.caption}</Text>
+                  <Text style={{ marginTop: 10, textAlign: "center" }}>
+                    View all Comments.....
+                  </Text>
+                </View>
+              </View>
+            )}
+          />
+          // {/* End of FlatList-Component */}
+        )}
       </View>
     );
   }

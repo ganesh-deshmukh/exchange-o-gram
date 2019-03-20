@@ -1,4 +1,5 @@
 node_modules
 yarn.lock
-/home/gd/Desktop/exchange-o-gram/.expo/packager-info.json
 ./app/config/config.js
+.expo/packager-info.json
+/home/gd/Desktop/exchange-o-gram/.expo/packager-info.json
