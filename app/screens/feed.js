@@ -16,6 +16,48 @@ class feed extends Component {
     this.loadFeed();
   };
 
+  // check singular or plural time for "ago"
+  pluralCheck = s => {
+    if (s == 1) return " ago";
+    else return "s ago";
+  };
+
+  // function to convert timestamp to readable time
+  timeConverter = timestamp => {
+    var t = new Date(timestamp * 1000);
+    var seconds = Math.floor((new Date() - t) / 1000);
+
+    // check this interval is in years/months/days/hours/minutes?
+    // total no of seconds in year are 31536000
+    var interval = Math.floor(seconds / 31536000);
+    if (interval > 1) {
+      return interval + " year" + this.pluralCheck(interval);
+    }
+
+    // for months
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+      return interval + " month" + this.pluralCheck(interval);
+    }
+    // for days
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+      return interval + " day" + this.pluralCheck(interval);
+    }
+    // for hours
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+      return interval + " hour" + this.pluralCheck(interval);
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+      return interval + " minute" + this.pluralCheck(interval);
+    }
+
+    // for seconds
+    return Math.floor(seconds) + " second" + this.pluralCheck(seconds);
+  };
+
   loadFeed = () => {
     this.setState({
       refresh: true,
@@ -55,7 +97,7 @@ class feed extends Component {
                 id: photo, // photo is like iterable=index eg. for i in array.
                 url: photoObj.url,
                 caption: photoObj.caption,
-                posted: photoObj.posted,
+                posted: that.timeConverter(photoObj.posted),
                 author: data.username
               });
 
@@ -78,39 +120,6 @@ class feed extends Component {
     console.log("LoadNew() is called");
     this.loadFeed();
   };
-
-  // _renderItem = (item, index) => {
-  //   console.log("item is " + item.id + "index is " + index);
-  //   return (
-  //     <View key={item.id} style={styles.flatlistImage}>
-  //       <View style={styles.postDetails}>
-  //         <Text>5 minutes ago</Text>
-  //         <Text>@username</Text>
-  //       </View>
-
-  //       <View>
-  //         <Image
-  //           source={{
-  //             uri:
-  //               "https://source.unsplash.com/random/500x" +
-  //               Math.floor(Math.random() * 800 + 500)
-
-  //             // uri: "https://source.unsplash.com/random/500x770/"
-  //           }}
-  //           style={styles.profilephoto}
-  //         />
-  //       </View>
-
-  //       <View style={{ padding: 5 }}>
-  //         <Text style={{}}> #HashTag- Caption of post</Text>
-  //         <Text style={{ marginTop: 10, textAlign: "center" }}>
-  //           {" "}
-  //           View all Comments.....
-  //         </Text>
-  //       </View>
-  //     </View>
-  //   );
-  // };
 
   render() {
     return (
