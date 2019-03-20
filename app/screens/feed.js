@@ -1,14 +1,78 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import { f, auth, database, storage } from "../config/config";
 
 class feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      photo_feed: [0, 1, 2, 3, 4], // this is data of our app
-      refresh: false
+      photo_feed: [],
+      refresh: false,
+      loading: true
     };
   }
+  componentDidMount = () => {
+    // Load Feed function
+    this.loadFeed();
+  };
+
+  loadFeed = () => {
+    this.setState({
+      refresh: true,
+      photo_feed: []
+    });
+
+    var that = this; // to refere local object using this.
+
+    database
+      .ref("photos")
+      .orderByChild("posted")
+      .once("value")
+      .then(snapshot => {
+        const exists = snapshot.val() !== null;
+        if (exists) data = snapshot.val(); // assign data=snapshot, only if it is not empty
+
+        var photo_feed = that.state.photo_feed;
+
+        for (var photo in data) {
+          // photo is index eg. for i in array
+          photoObj = data[photo];
+
+          // for each photo(photoObj) in data(snapshot-value),
+          // get details of each user then push details to photo-feed-array
+          database
+            .ref("users")
+            .child(photoObj.author)
+            .once("value")
+            .then(snapshot => {
+              // now we have access to userdetails of author of each-photo
+              // we can directly show all photos.
+
+              const exists = snapshot.val() !== null;
+              if (exists) data = snapshot.val(); // assign data=snapshot, only if it is not empty
+
+              photo_feed.push({
+                id: photo, // photo is like iterable=index eg. for i in array.
+                url: photoObj.url,
+                caption: photoObj.caption,
+                posted: photoObj.posted,
+                author: data.username
+              });
+
+              that.setState({
+                refresh: false,
+                loading: false
+              });
+            }) // end of then(snapshot=> function)
+            .catch(e => {
+              console.log(e);
+            });
+        } // end of for loop
+      }) // end of then(snapshot=> function)
+      .catch(e => {
+        console.log(e);
+      });
+  };
 
   loadNew = () => {
     console.log("LoadNew() is called");
