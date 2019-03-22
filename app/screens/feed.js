@@ -85,6 +85,7 @@ class feed extends Component {
           database
             .ref("users")
             .child(photoObj.author)
+            .child("username") // now taking whole data as username
             .once("value")
             .then(snapshot => {
               // now we have access to userdetails of author of each-photo
@@ -98,7 +99,7 @@ class feed extends Component {
                 url: photoObj.url,
                 caption: photoObj.caption,
                 posted: that.timeConverter(photoObj.posted),
-                author: data.username
+                author: data
               });
 
               that.setState({
@@ -147,7 +148,7 @@ class feed extends Component {
             renderItem={({ item, index }) => (
               <View key={index} style={styles.flatlistImage}>
                 <View style={styles.postDetails}>
-                  <Text>{item.posted} ago</Text>
+                  <Text>{item.posted} </Text>
                   <Text>@{item.author}</Text>
                 </View>
                 <View>

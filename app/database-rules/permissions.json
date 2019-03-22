@@ -1,38 +1,49 @@
 {
-    /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
-    "rules": {
-      
-      "photos":{
-        // read to all
-        ".read": true,
-          "$photoId":{
-                // only able to write if you are authenticated
-            ".write":"root.child('photos').child($photoId).child('author').val() == auth.uid  || newData.child('author').val() == auth.uid"
+  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+  "rules": {
+    "photos": {
+      // read to all
+      ".read": true,
+      "$photoId": {
+        // only able to write if you are authenticated
+        ".write": "root.child('photos').child($photoId).child('author').val() == auth.uid  || newData.child('author').val() == auth.uid"
+      }
+    }, // photos-json ends
+
+    "users": {
+      "$user_id": {
+        ".read": "auth.uid == $user_id",
+        ".write": "auth.uid == $user_id",
+        // username, name, avatar can be read by anyone, with read permission for all
+        "username": {
+          ".read": true
+        },
+        "name": {
+          ".read": true
+        },
+
+        "avatar": {
+          ".read": true
+        },
+
+        // email can be only viewed by only user if authenticated
+        "email": {
+          ".read": "auth.uid == $user_id"
+        }
+      }
+    }, // users
+
+    "comments": {
+      // anyone can see comments, even if they are loggedin or not
+      ".read": true,
+      "$photo_id": {
+        "$comment_id": {
+          ".write": "root.child('comments').child($photo_id).child($comment_id).child('author').val() == auth.uid || newData.child('author').val() == auth.uid",
+          "author": {
+            ".validate": "newData.val() == auth.uid"
           }
-      }, // photos
-        
-        "users":{
-          "$user_id":{
-            ".read": 	"auth.uid == $user_id",
-            ".write": 	"auth.uid == $user_id",
-              // username, name, avatar can be read by anyone, with read permission for all
-              "username":{ 
-                ".read":true,
-              },
-                "name":{
-                ".read":true,
-              },
-                
-              "avatar":{
-                ".read":true,
-              },
-                
-                // email can be only viewed by only user if authenticated
-                "email":{
-                ".read":"auth.uid == $user_id",
-              },
-                
-          } // $user_id
-        } // users
-    }  	// rules
-  }	   // main-json
+        }
+      }
+    }
+  } // rules
+} // main-json
