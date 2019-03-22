@@ -5,13 +5,41 @@ import { f, auth, database, storage } from "../config/config";
 class upload extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loggedin: false
+    };
   }
+
+  componentDidMount = () => {
+    // set variable that=this, for binding
+    var that = this;
+    f.auth().onAuthStateChanged(user => {
+      if (user) {
+        // Loggedin
+        that.setState({
+          loggedin: true
+        });
+      } else {
+        // Not-Loggedin
+        that.setState({
+          loggedin: false
+        });
+      }
+    });
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text> upload files here </Text>
+        {this.state.loggedin == true ? (
+          // true-> you are loggedin
+          <Text>Upload photos</Text>
+        ) : (
+          <View>
+            <Text>You are not-Logged in, can't upload photos</Text>
+            <Text>Please Logged in</Text>
+          </View>
+        )}
       </View>
     );
   }
