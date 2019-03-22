@@ -7,6 +7,7 @@ import {
   Text,
   StyleSheet
 } from "react-native";
+
 import { f, auth, database, storage } from "../config/config";
 
 class profile extends Component {
@@ -58,6 +59,22 @@ class profile extends Component {
                 <Text>@username </Text>
               </View>
             </View>
+            <View style={{ paddingBottom: 20, borderBottomWidth: 1 }}>
+              <TouchableOpacity style={styles.buttons}>
+                <Text style={styles.labels}>LogOut</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buttons}>
+                <Text style={styles.labels}>Edit Profile</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this.props.navigation.navigate("Upload");
+                }}
+                style={styles.upload}
+              >
+                <Text style={styles.uploadText}>+ Upload New Photo </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         ) : (
           <View style={styles.container}>
@@ -99,6 +116,31 @@ const styles = StyleSheet.create({
   },
   profileDetails: {
     marginRight: 10
+  },
+  buttons: {
+    marginTop: 10,
+    marginHorizontal: 40,
+    paddingVertical: 15,
+    borderRadius: 20,
+    borderColor: "grey",
+    borderWidth: 1.5
+  },
+  upload: {
+    marginTop: 10,
+    marginHorizontal: 40,
+    paddingVertical: 35,
+    borderRadius: 20,
+    backgroundColor: "grey",
+    borderColor: "grey",
+    borderWidth: 1.5
+  },
+  labels: {
+    textAlign: "center",
+    color: "grey"
+  },
+  uploadText: {
+    textAlign: "center",
+    color: "white"
   }
 });
 export default profile;

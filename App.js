@@ -29,7 +29,7 @@ class App extends React.Component {
         "test@user.com",
         "password"
       );
-      alert("user successfully loggedin");
+      // alert("user successfully loggedin");
     } catch (err) {
       console.log(err);
     }
