@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {
+  TouchableOpacity,
+  FlatList,
+  Image,
+  View,
+  Text,
+  StyleSheet
+} from "react-native";
 import { f, auth, database, storage } from "../config/config";
 
 class profile extends Component {
@@ -30,12 +37,30 @@ class profile extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={{ flex: 1 }}>
         {this.state.loggedin == true ? (
           // true-> you are loggedin
-          <Text>Profile- Logged In User</Text>
+          <View style={{ flex: 1 }}>
+            <View style={styles.header}>
+              <Text> Profile </Text>
+            </View>
+
+            <View style={styles.profile}>
+              <Image
+                source={{
+                  uri: "https://api.adorable.io/avatars/285/test@user.i.png"
+                }}
+                style={styles.profilePicture}
+              />
+
+              <View style={styles.profileDetails}>
+                <Text>Name </Text>
+                <Text>@username </Text>
+              </View>
+            </View>
+          </View>
         ) : (
-          <View>
+          <View style={styles.container}>
             <Text>You are not-Logged in</Text>
             <Text>Please Logged in</Text>
           </View>
@@ -50,6 +75,30 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
+  },
+  header: {
+    height: 70,
+    paddingTop: 30,
+    backgroundColor: "white",
+    borderColor: "lightgrey",
+    borderBottomWidth: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  profile: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    paddingVertical: 10
+  },
+  profilePicture: {
+    marginLeft: 10,
+    width: 100,
+    height: 100,
+    borderRadius: 50
+  },
+  profileDetails: {
+    marginRight: 10
   }
 });
 export default profile;
