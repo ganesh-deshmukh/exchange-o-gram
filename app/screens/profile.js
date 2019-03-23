@@ -75,8 +75,12 @@ class profile extends Component {
                 <Text style={styles.uploadText}>+ Upload New Photo </Text>
               </TouchableOpacity>
             </View>
+            <View style={styles.photoLoading}>
+              <Text>Loading Photos</Text>
+            </View>
           </View>
         ) : (
+          // if user is not authenticated
           <View style={styles.container}>
             <Text>You are not-Logged in</Text>
             <Text>Please Logged in</Text>
@@ -121,7 +125,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginHorizontal: 40,
     paddingVertical: 15,
-    borderRadius: 20,
+    borderRadius: 25,
     borderColor: "grey",
     borderWidth: 1.5
   },
@@ -129,7 +133,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginHorizontal: 40,
     paddingVertical: 35,
-    borderRadius: 20,
+    borderRadius: 25,
     backgroundColor: "grey",
     borderColor: "grey",
     borderWidth: 1.5
@@ -141,6 +145,12 @@ const styles = StyleSheet.create({
   uploadText: {
     textAlign: "center",
     color: "white"
+  },
+  photoLoading: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "green"
   }
 });
 export default profile;
