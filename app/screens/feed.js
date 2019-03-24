@@ -162,7 +162,7 @@ class feed extends Component {
                     onPress={() => {
                       console.log("item.authorId passed =", item.authorId);
                       this.props.navigation.navigate("User", {
-                        userId2: item.authorId
+                        userId: item.authorId
                         // we will go to userProfile-page,
                         // because navigate->Users={screen:userProfile} in app.js in MainStack
                       });

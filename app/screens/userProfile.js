@@ -21,23 +21,27 @@ class userProfile extends Component {
   checkParams = () => {
     // check if username is passed through userProfile.js or not.
     let params = this.props.navigation.state.params;
+    // console.log(" params= ", params);
+
     if (params) {
-      if (params.userId2) {
+      if (params.userId) {
         this.setState({
-          userId: params.userId2
+          userId: params.userId
         });
         // if params are reveived as userId, then fetch user's profile using userId
         this.fetchUserInfo(params.userId);
+        console.log("params.userId ", params.userId);
       }
     }
 
-    // const userId = this.props.navigation.getParam("userId", "NO-ID received");
-    // console.log("id received is = ", userId);
+    // const userId  = this.props.navigation.getParam("userId", "NO-ID received");
+    // console.log("id received is = ", this.state.userId);
   };
 
-  fetchUserInfo = userId2 => {
-    alert(this.state.userId);
+  fetchUserInfo = userId => {
+    alert(userId);
   };
+
   componentDidMount = () => {
     this.checkParams(); // get userId of user through profile.js navigation
   };
