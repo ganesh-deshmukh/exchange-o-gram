@@ -14,33 +14,46 @@ class userProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedin: false
+      loaded: false
     };
   }
 
-  componentDidMount = () => {
-    // set variable that=this, for binding
-    var that = this;
-    f.auth().onAuthStateChanged(user => {
-      if (user) {
-        // Loggedin
-        that.setState({
-          loggedin: true
+  checkParams = () => {
+    // check if username is passed through userProfile.js or not.
+    let params = this.props.navigation.state.params;
+    if (params) {
+      if (params.userId2) {
+        this.setState({
+          userId: params.userId2
         });
-      } else {
-        // Not-Loggedin
-        that.setState({
-          loggedin: false
-        });
+        // if params are reveived as userId, then fetch user's profile using userId
+        this.fetchUserInfo(params.userId);
       }
-    });
+    }
+
+    // const userId = this.props.navigation.getParam("userId", "NO-ID received");
+    // console.log("id received is = ", userId);
+  };
+
+  fetchUserInfo = userId2 => {
+    alert(this.state.userId);
+  };
+  componentDidMount = () => {
+    this.checkParams(); // get userId of user through profile.js navigation
   };
 
   render() {
+    // const { navigation } = this.props;
+    // const itemId = navigation.getParam("userId2", "NO-ID");
     return (
       <View style={{ flex: 1 }}>
-        {this.state.loggedin == true ? (
-          // true-> you are loggedin
+        {this.state.loaded == false ? (
+          // means page hasn't loaded yet.
+          <View>
+            <Text>{this.state.userId}</Text>
+          </View>
+        ) : (
+          // else, pageLoaded=true, then display user's-profile
           <View style={{ flex: 1 }}>
             <View style={styles.header}>
               <Text> Profile </Text>
@@ -59,31 +72,10 @@ class userProfile extends Component {
                 <Text>@username </Text>
               </View>
             </View>
-            <View style={{ paddingBottom: 20, borderBottomWidth: 1 }}>
-              <TouchableOpacity style={styles.buttons}>
-                <Text style={styles.labels}>LogOut</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buttons}>
-                <Text style={styles.labels}>Edit Profile</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate("Upload");
-                }}
-                style={styles.upload}
-              >
-                <Text style={styles.uploadText}>+ Upload New Photo </Text>
-              </TouchableOpacity>
-            </View>
+            <View style={{ paddingBottom: 20, borderBottomWidth: 1 }} />
             <View style={styles.photoLoading}>
               <Text>Loading Photos</Text>
             </View>
-          </View>
-        ) : (
-          // if user is not authenticated
-          <View style={styles.container}>
-            <Text>You are not-Logged in</Text>
-            <Text>Please Logged in</Text>
           </View>
         )}
       </View>

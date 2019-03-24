@@ -157,10 +157,12 @@ class feed extends Component {
               <View key={index} style={styles.flatlistImage}>
                 <View style={styles.postDetails}>
                   <Text>{item.posted} </Text>
+
                   <TouchableOpacity
                     onPress={() => {
+                      console.log("item.authorId passed =", item.authorId);
                       this.props.navigation.navigate("User", {
-                        userId: item.userId
+                        userId2: item.authorId
                         // we will go to userProfile-page,
                         // because navigate->Users={screen:userProfile} in app.js in MainStack
                       });
