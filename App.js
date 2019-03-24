@@ -10,9 +10,11 @@ import { f, auth, database, storage } from "./app/config/config";
 import feed from "./app/screens/feed";
 import upload from "./app/screens/upload";
 import profile from "./app/screens/profile";
+import userProfile from "./app/screens/userProfile";
+import comments from "./app/screens/comments";
 
 // make navigation-module or tabs or drawer and pass it to AppContainer
-const MainStack = createBottomTabNavigator({
+const TabStack = createBottomTabNavigator({
   Feed: {
     screen: feed
   },
@@ -23,6 +25,26 @@ const MainStack = createBottomTabNavigator({
     screen: profile
   }
 });
+
+const MainStack = createStackNavigator(
+  {
+    Home: {
+      screen: TabStack
+    },
+    User: {
+      screen: userProfile
+    },
+    Comments: {
+      screen: comments
+    }
+  }, // screens object ends here.
+    // apply features to your app-screen
+  {
+    initialRouteName: "Home",
+    mode: "modal", // card and modal are same in android
+    headerMode: "none"
+  }
+);
 
 class App extends React.Component {
   login = async () => {

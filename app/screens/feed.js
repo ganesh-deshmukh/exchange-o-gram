@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList
+} from "react-native";
 import { f, auth, database, storage } from "../config/config";
 
 class feed extends Component {
@@ -99,7 +106,8 @@ class feed extends Component {
                 url: photoObj.url,
                 caption: photoObj.caption,
                 posted: that.timeConverter(photoObj.posted),
-                author: data
+                author: data,
+                authorId: photoObj.author
               });
 
               that.setState({
@@ -149,7 +157,17 @@ class feed extends Component {
               <View key={index} style={styles.flatlistImage}>
                 <View style={styles.postDetails}>
                   <Text>{item.posted} </Text>
-                  <Text>@{item.author}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.navigation.navigate("User", {
+                        userId: item.userId
+                        // we will go to userProfile-page,
+                        // because navigate->Users={screen:userProfile} in app.js in MainStack
+                      });
+                    }}
+                  >
+                    <Text>@{item.author}</Text>
+                  </TouchableOpacity>
                 </View>
                 <View>
                   <Image
