@@ -134,7 +134,7 @@ class feed extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text> feed </Text>
+          <Text> Feed </Text>
         </View>
 
         {this.state.loading === true ? (
@@ -181,9 +181,25 @@ class feed extends Component {
                 </View>
                 <View style={{ padding: 5 }}>
                   <Text style={{}}> #{item.caption}</Text>
-                  <Text style={{ marginTop: 10, textAlign: "center" }}>
-                    View all Comments.....
-                  </Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.navigation.navigate("Comments", {
+                        userId: item.id
+                        // in photo_feed, item.id= photo-id.
+                        // pass photoid to show respective comments of that photo.
+                      });
+                    }}
+                  >
+                    <Text
+                      style={{
+                        marginTop: 10,
+                        textAlign: "center",
+                        color: "blue"
+                      }}
+                    >
+                      [Show all Comments]
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             )}

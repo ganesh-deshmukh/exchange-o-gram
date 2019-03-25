@@ -33,10 +33,10 @@ class upload extends Component {
       <View style={styles.container}>
         {this.state.loggedin == true ? (
           // true-> you are loggedin
-          <Text>Upload photos</Text>
+          <Text>Your comments...</Text>
         ) : (
           <View>
-            <Text>You are not-Logged in, can't upload photos</Text>
+            <Text>You are not-Logged in, can't post your comments</Text>
             <Text>Please Logged in</Text>
           </View>
         )}
