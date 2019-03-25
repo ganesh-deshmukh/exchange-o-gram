@@ -39,7 +39,51 @@ class userProfile extends Component {
   };
 
   fetchUserInfo = userId => {
-    alert(userId);
+    var that = this;
+    database
+      .ref("users")
+      .child(userId)
+      .child("username")
+      .once("value")
+      .then(snapshot => {
+        const exists = snapshot.val() != null;
+        if (exists) data = snapshot.val();
+        that.setState({
+          username: data
+        });
+      })
+      .catch(e => console.log(e));
+
+    database
+      .ref("users")
+      .child(userId)
+      .child("name")
+      .once("value")
+      .then(snapshot => {
+        const exists = snapshot.val() != null;
+        if (exists) data = snapshot.val();
+        that.setState({
+          name: data
+        });
+      })
+      .catch(e => console.log(e));
+
+    database
+      .ref("users")
+      .child(userId)
+      .child("avatar")
+      .once("value")
+      .then(snapshot => {
+        const exists = snapshot.val() != null;
+        if (exists) data = snapshot.val();
+        that.setState({
+          avatar: data,
+          loaded: true
+          // now we have fetched data and loaded page, now make loaded=true.
+        });
+      })
+      .catch(e => console.log(e));
+    // catch error if snapshot is not found through api
   };
 
   componentDidMount = () => {
@@ -54,26 +98,33 @@ class userProfile extends Component {
         {this.state.loaded == false ? (
           // means page hasn't loaded yet.
           <View>
-            <Text>{this.state.userId}</Text>
+            <Text>Loading...</Text>
           </View>
         ) : (
           // else, pageLoaded=true, then display user's-profile
           <View style={{ flex: 1 }}>
             <View style={styles.header}>
+              <TouchableOpacity
+                style={{ width: 100 }}
+                onPress={() => this.props.navigation.goBack()}
+              >
+                <Text style={styles.goBackLabel}> &lt;- Go Back</Text>
+              </TouchableOpacity>
               <Text> Profile </Text>
+              <Text style={{ width: 100 }}> </Text>
             </View>
 
             <View style={styles.profile}>
               <Image
                 source={{
-                  uri: "https://api.adorable.io/avatars/285/test@user.i.png"
+                  uri: this.state.avatar
                 }}
                 style={styles.profilePicture}
               />
 
               <View style={styles.profileDetails}>
-                <Text>Name </Text>
-                <Text>@username </Text>
+                <Text>{this.state.name}</Text>
+                <Text>{this.state.username}</Text>
               </View>
             </View>
             <View style={{ paddingBottom: 20, borderBottomWidth: 1 }} />
@@ -94,12 +145,13 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   header: {
+    flexDirection: "row",
     height: 70,
     paddingTop: 30,
     backgroundColor: "white",
     borderColor: "lightgrey",
     borderBottomWidth: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center"
   },
   profile: {
@@ -147,6 +199,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "green"
+  },
+  goBackLabel: {
+    fontSize: 13,
+    fontWeight: "bold",
+    paddingLeft: 5
   }
 });
 export default userProfile;
