@@ -2,16 +2,74 @@ import React, { Component } from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { f, auth, database, storage } from "../config/config";
 
+import { Permissions, ImagePicker } from "expo";
+// import console = require("console");
+
 class upload extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedin: false
+      loggedin: false,
+      imageId: this.uniqueId()
     };
+    // alert(this.uniqueId());
   }
 
-  findNewImage = () => {
-    console.log("Selecting Image from photo picker");
+  _checkPermissions = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({
+      camera: status
+    });
+
+    // take permission for Gallery, aka CameraRoll
+    const { statusRoll } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    this.setState({
+      cameraRoll: statusRoll
+    });
+  };
+
+  s4 = () => {
+    return Math.floor((1 + Math.random()) * 0x1000)
+      .toString(16)
+      .substring(1); // substring return all chars except char at index=0;
+  };
+  uniqueId = () => {
+    // create uniqueId for image as Alphabetical
+    return (
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4()
+    );
+  };
+
+  findNewImage = async () => {
+    this._checkPermissions();
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: "Images",
+      allowsEditing: true, // square image
+      quality: 1 // 1 means 100%
+    });
+    console.log(result);
+
+    if (!result.cancelled) {
+      // if it's not cancelled, means chosen photo
+      // process image and upload to firebase database.
+      console.log("uploaded image");
+      this.uploadImage(result.uri);
+    } else {
+      console.log("cancelled");
+    }
+  };
+
+  uploadImage = () => {
+    // add logic to upload photo to firebase
   };
 
   componentDidMount = () => {

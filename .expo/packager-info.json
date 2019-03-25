@@ -1,10 +1,10 @@
 {
-  "devToolsPort": 19003,
+  "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": null,
-  "packagerPid": null,
+  "packagerPort": 19001,
+  "packagerPid": 15801,
   "expoServerNgrokUrl": "https://x9-hzd.anonymous.exchange-o-gram.exp.direct",
   "packagerNgrokUrl": "https://packager.x9-hzd.anonymous.exchange-o-gram.exp.direct",
-  "ngrokPid": 11290,
+  "ngrokPid": 15876,
   "webpackServerPort": null
 }
