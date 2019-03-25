@@ -48,7 +48,7 @@ class upload extends Component {
     );
   };
 
-  findNewImage = async () => {
+  findNewImage = async uri => {
     this._checkPermissions();
 
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -68,8 +68,29 @@ class upload extends Component {
     }
   };
 
-  uploadImage = () => {
+  uploadImage = async uri => {
     // add logic to upload photo to firebase
+    let that = this;
+    let userid = f.auth().currentUser.uid;
+    let imageId = this.state.imageId; // imgId = uniqueIdGenerated()
+
+    // check file extension ofo uploaded img
+    let re = /(?:\.([^.]+))?$/; // filename, regular-expression
+    let ext = re.exec(uri)[1]; // extension
+
+    this.setState({
+      currentFileType: ext
+    });
+
+    const response = await fetch(uri); // uri is local url of image
+    const blob = await response.blob();
+    let FilePath = imageId + "." + that.state.currentFileType; // imageId.ext
+
+    const ref = storage.ref("user/" + userid + "/img").child(FilePath);
+
+    let snapshot = ref.put(blob).on("state_changed", snapshot => {
+      console.log("Progress", snapshot.bytesTransferred, snapshot.totalBytes);
+    });
   };
 
   componentDidMount = () => {

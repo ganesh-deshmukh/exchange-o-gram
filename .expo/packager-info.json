@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 15801,
-  "expoServerNgrokUrl": "https://x9-hzd.anonymous.exchange-o-gram.exp.direct",
-  "packagerNgrokUrl": "https://packager.x9-hzd.anonymous.exchange-o-gram.exp.direct",
-  "ngrokPid": 15876,
+  "packagerPid": 23119,
+  "expoServerNgrokUrl": "https://da-sev.anonymous.exchange-o-gram.exp.direct",
+  "packagerNgrokUrl": "https://packager.da-sev.anonymous.exchange-o-gram.exp.direct",
+  "ngrokPid": 23194,
   "webpackServerPort": null
 }
