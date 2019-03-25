@@ -8,6 +8,7 @@ import {
   FlatList
 } from "react-native";
 import { f, auth, database, storage } from "../config/config";
+console.disableYellowBox = true;
 
 class feed extends Component {
   constructor(props) {

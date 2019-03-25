@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { f, auth, database, storage } from "../config/config";
 
 import { Permissions, ImagePicker } from "expo";
-// import console = require("console");
+console.disableYellowBox = true;
 
 class upload extends Component {
   constructor(props) {
@@ -69,7 +69,6 @@ class upload extends Component {
   };
 
   uploadImage = async uri => {
-    // add logic to upload photo to firebase
     let that = this;
     let userid = f.auth().currentUser.uid;
     let imageId = this.state.imageId; // imgId = uniqueIdGenerated()
@@ -82,13 +81,27 @@ class upload extends Component {
       currentFileType: ext
     });
 
-    const response = await fetch(uri); // uri is local url of image
-    const blob = await response.blob();
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function(e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
+
     let FilePath = imageId + "." + that.state.currentFileType; // imageId.ext
 
     const ref = storage.ref("user/" + userid + "/img").child(FilePath);
 
-    let snapshot = ref.put(blob).on("state_changed", snapshot => {
+    const snapshot = await ref.put(blob).on("state_changed", snapshot => {
       console.log("Progress", snapshot.bytesTransferred, snapshot.totalBytes);
     });
   };
