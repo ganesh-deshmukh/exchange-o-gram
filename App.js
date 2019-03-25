@@ -38,7 +38,7 @@ const MainStack = createStackNavigator(
       screen: comments
     }
   }, // screens object ends here.
-    // apply features to your app-screen
+  // apply features to your app-screen
   {
     initialRouteName: "Home",
     mode: "modal", // card and modal are same in android
