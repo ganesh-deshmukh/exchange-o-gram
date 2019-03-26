@@ -20,9 +20,9 @@ class upload extends Component {
       loggedin: false,
       imageId: this.uniqueId(),
       imageSelected: false,
-      uploading: true, // for testing uploading progress
+      uploading: false,
       caption: "",
-      progress: 50
+      progress: 0
     };
     // alert(this.uniqueId());
   }
@@ -88,6 +88,16 @@ class upload extends Component {
     }
   };
 
+  uploadPublish = () => {
+    if (this.state.caption != "") {
+      //now upload image to firebase-db, as we have img with caption
+      this.uploadImage(this.state.uri);
+    } else {
+      alert("Please enter caption for your photo, to post.");
+    }
+  };
+
+  // this is main function to upload upload img
   uploadImage = async uri => {
     let that = this;
     let userid = f.auth().currentUser.uid;
@@ -98,7 +108,8 @@ class upload extends Component {
     let ext = re.exec(uri)[1]; // extension
 
     this.setState({
-      currentFileType: ext
+      currentFileType: ext,
+      uploading: true
     });
 
     // Why are we using XMLHttpRequest? See:
@@ -119,11 +130,44 @@ class upload extends Component {
 
     let FilePath = imageId + "." + that.state.currentFileType; // imageId.ext
 
-    const ref = storage.ref("user/" + userid + "/img").child(FilePath);
+    let uploadTask = storage
+      .ref("user/" + userid + "/img")
+      .child(FilePath)
+      .put(blob);
 
-    const snapshot = await ref.put(blob).on("state_changed", snapshot => {
-      console.log("Progress", snapshot.bytesTransferred, snapshot.totalBytes);
-    });
+    uploadTask.on(
+      "state_changed",
+      snapshot => {
+        let progress = (
+          (snapshot.bytesTransferred / snapshot.totalBytes) *
+          100
+        ).toFixed();
+        console.log("Upload is " + progress + "% completed.");
+
+        that.setState({
+          progress: progress
+        });
+      },
+      err => {
+        console.log("Error while uploding file ", err);
+      },
+
+      // now upload is completed,
+      () => {
+        this.setState({
+          progress: 100
+        });
+        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          alert(downloadURL);
+          console.log(downloadURL);
+        });
+      }
+    );
+
+    // const snapshot = await ref.put(blob).on("state_changed", snapshot => {
+    // console.log("Progress", snapshot.bytesTransferred, snapshot.totalBytes);
+    // console.log(snapshot.ref.getDownloadURL());
+    // });
   };
 
   componentDidMount = () => {
@@ -181,7 +225,7 @@ class upload extends Component {
 
                   {this.state.uploading == true ? (
                     <View style={{ marginTop: 10 }}>
-                      <Text>{this.state.progress}</Text>
+                      <Text>{this.state.progress}%</Text>
 
                       {/* check again if progress is not 100%, then display spinning logo
                           as activity indicator  */}
