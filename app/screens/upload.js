@@ -73,7 +73,7 @@ class upload extends Component {
     // if it's not cancelled, means chosen photo
     // process image and upload to firebase database.
     if (!result.cancelled) {
-      console.log("uploaded image");
+      console.log("fetched Image from LocalStorage, but not posted yet.");
       this.setState({
         imageSelected: true,
         imageId: this.uniqueId(),
@@ -89,11 +89,15 @@ class upload extends Component {
   };
 
   uploadPublish = () => {
-    if (this.state.caption != "") {
-      //now upload image to firebase-db, as we have img with caption
-      this.uploadImage(this.state.uri);
+    if (this.state.uploading == false) {
+      if (this.state.caption != "") {
+        //now upload image to firebase-db, as we have img with caption
+        this.uploadImage(this.state.uri);
+      } else {
+        alert("Please enter caption for your photo, to post.");
+      }
     } else {
-      alert("Please enter caption for your photo, to post.");
+      console.log("Ignoring click more than once.");
     }
   };
 
@@ -158,16 +162,54 @@ class upload extends Component {
           progress: 100
         });
         uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          alert(downloadURL);
+          // alert(downloadURL);
           console.log(downloadURL);
+          that.profcessUpload(downloadURL);
         });
       }
     );
-
     // const snapshot = await ref.put(blob).on("state_changed", snapshot => {
     // console.log("Progress", snapshot.bytesTransferred, snapshot.totalBytes);
     // console.log(snapshot.ref.getDownloadURL());
     // });
+  };
+
+  profcessUpload = imageURL => {
+    // set needed info of user
+    let imageId = this.state.imageId;
+    let userId = f.auth().currentUser.uid;
+    let dateTime = Date.now();
+    let caption = this.state.caption;
+    let timestamp = Math.floor(dateTime / 1000);
+
+    // we have uploaded img to storage, but we have to link that url with realtime-db
+    // photo-json = author, caption, posted-timestamp, urlofimg
+
+    var photoObj = {
+      author: userId,
+      caption: caption,
+      posted: timestamp,
+      url: imageURL
+    };
+
+    // now, add info to realtime-db in two locations. as feed & profile
+    // add data to photo-obj and user-object
+
+    // first to add photo to main feed of photos
+    database.ref("/photos/" + imageId).set(photoObj);
+
+    // add photosobj to user-json as well.
+    database.ref("/users/" + userId + "photos" + imageId).set(photoObj);
+
+    alert("Image Uploaded in FireBase");
+
+    // after uploading photo, reset photo-attribute/ states
+    this.setState({
+      uploading: false,
+      imageSelected: false,
+      caption: "",
+      uri: ""
+    });
   };
 
   componentDidMount = () => {
