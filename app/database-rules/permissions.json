@@ -6,14 +6,17 @@
       ".read": true,
       "$photoId": {
         // only able to write if you are authenticated
-        ".write": "root.child('photos').child($photoId).child('author').val() == auth.uid  || newData.child('author').val() == auth.uid"
+        ".write": "root.child('photos').child($photoId).child('author').val() == auth.uid  || newData.child('author').val() == auth.uid",
+        "author": {
+          ".validate": "newData.val() == auth.uid"
+        }
       }
     }, // photos-json ends
 
     "users": {
-      "$user_id": {
-        ".read": "auth.uid == $user_id",
-        ".write": "auth.uid == $user_id",
+      "$userId": {
+        ".read": "auth.uid == $userId",
+        ".write": "auth.uid == $userId",
         // username, name, avatar can be read by anyone, with read permission for all
         "username": {
           ".read": true
@@ -25,13 +28,16 @@
         "avatar": {
           ".read": true
         },
-
+        "photos": {
+          ".read": true
+          // ".write":true,
+        },
         // email can be only viewed by only user if authenticated
         "email": {
-          ".read": "auth.uid == $user_id"
+          ".read": "auth.uid == $userId"
         }
       }
-    }, // users
+    }, // users-json ends
 
     "comments": {
       // anyone can see comments, even if they are loggedin or not
@@ -44,6 +50,6 @@
           }
         }
       }
-    }
+    } // comments-json ends
   } // rules
 } // main-json
