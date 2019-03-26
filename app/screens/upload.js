@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   TextInput,
   ActivityIndicator,
+  Image,
   TouchableOpacity,
   View,
   Text,
@@ -197,7 +198,10 @@ class upload extends Component {
                     <View />
                   )}
 
-                  <Image source={this.state.uri} style={styles.previewImg} />
+                  <Image
+                    source={{ uri: this.state.uri }}
+                    style={styles.previewImg}
+                  />
                 </View>
               </View>
             ) : (
