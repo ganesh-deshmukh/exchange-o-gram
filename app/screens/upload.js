@@ -19,8 +19,9 @@ class upload extends Component {
       loggedin: false,
       imageId: this.uniqueId(),
       imageSelected: false,
-      uploading: false,
-      caption: ""
+      uploading: true, // for testing uploading progress
+      caption: "",
+      progress: 50
     };
     // alert(this.uniqueId());
   }
@@ -167,6 +168,36 @@ class upload extends Component {
                     onChangeText={text => this.setState({ caption: text })}
                     style={styles.textInput}
                   />
+                  {/* After chossing caption, publish photo */}
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.uploadPublish();
+                    }}
+                    style={styles.publishBtn}
+                  >
+                    <Text style={styles.textOnBtn}>Post on Wall</Text>
+                  </TouchableOpacity>
+
+                  {this.state.uploading == true ? (
+                    <View style={{ marginTop: 10 }}>
+                      <Text>{this.state.progress}</Text>
+
+                      {/* check again if progress is not 100%, then display spinning logo
+                          as activity indicator  */}
+
+                      {this.state.progress != 100 ? (
+                        <ActivityIndicator size="small" color="blue" />
+                      ) : (
+                        // progress is 100%, show done
+                        <Text>Upload Completed.</Text>
+                      )}
+                    </View>
+                  ) : (
+                    // uploading is false then show empty view
+                    <View />
+                  )}
+
+                  <Image source={this.state.uri} style={styles.previewImg} />
                 </View>
               </View>
             ) : (
@@ -180,7 +211,7 @@ class upload extends Component {
                     this.findNewImage();
                   }}
                 >
-                  <Text style={{ color: "white" }}>Select Photo</Text>
+                  <Text style={styles.textOnBtn}>Select Photo</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -228,6 +259,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 3,
     backgroundColor: "white"
+  },
+  publishBtn: {
+    alignSelf: "center",
+    width: 180,
+    marginHorizontal: "auto",
+    backgroundColor: "purple",
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 20
+  },
+  textOnBtn: {
+    textAlign: "center",
+    color: "white"
+  },
+  previewImg: {
+    marginTop: 10,
+    resizeMode: "cover",
+    width: "100%",
+    height: 300
   }
 });
 export default upload;
