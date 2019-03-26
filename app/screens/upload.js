@@ -146,8 +146,12 @@ class upload extends Component {
     return (
       <View style={{ flex: 1 }}>
         {this.state.loggedin == true ? (
+          // true-> you are loggedin
+
           <View style={{ flex: 1 }}>
+            {/*  check if image is selected or not? */}
             {this.state.imageSelected == true ? (
+              // yes img selected then choose caption & upload it now.
               <View style={{ flex: 1 }}>
                 <View style={styles.header}>
                   <Text> Upload </Text>
@@ -166,6 +170,8 @@ class upload extends Component {
                 </View>
               </View>
             ) : (
+              // no, img is not selected yet, show menu to upload
+
               <View style={styles.container}>
                 <Text style={styles.uploadText}>Upload</Text>
                 <TouchableOpacity
