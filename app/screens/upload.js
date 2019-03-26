@@ -199,7 +199,7 @@ class upload extends Component {
     database.ref("/photos/" + imageId).set(photoObj);
 
     // add photosobj to user-json as well.
-    database.ref("/users/" + userId + "photos" + imageId).set(photoObj);
+    database.ref("/users/" + userId + "/photos/" + imageId).set(photoObj);
 
     alert("Image Uploaded in FireBase");
 
