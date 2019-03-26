@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import {
+  TextInput,
+  ActivityIndicator,
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet
+} from "react-native";
 import { f, auth, database, storage } from "../config/config";
 
 import { Permissions, ImagePicker } from "expo";
@@ -10,7 +17,10 @@ class upload extends Component {
     super(props);
     this.state = {
       loggedin: false,
-      imageId: this.uniqueId()
+      imageId: this.uniqueId(),
+      imageSelected: false,
+      uploading: false,
+      caption: ""
     };
     // alert(this.uniqueId());
   }
@@ -58,13 +68,21 @@ class upload extends Component {
     });
     console.log(result);
 
+    // if it's not cancelled, means chosen photo
+    // process image and upload to firebase database.
     if (!result.cancelled) {
-      // if it's not cancelled, means chosen photo
-      // process image and upload to firebase database.
       console.log("uploaded image");
-      this.uploadImage(result.uri);
+      this.setState({
+        imageSelected: true,
+        imageId: this.uniqueId(),
+        uri: result.uri // uri to show preview of img
+      });
+      // this.uploadImage(result.uri);
     } else {
-      console.log("cancelled");
+      console.log("Image selection is cancelled");
+      this.setState({
+        imageSelected: false
+      });
     }
   };
 
@@ -128,17 +146,38 @@ class upload extends Component {
     return (
       <View style={{ flex: 1 }}>
         {this.state.loggedin == true ? (
-          // true-> you are loggedin
-          <View style={styles.container}>
-            <Text style={styles.uploadText}>Upload</Text>
-            <TouchableOpacity
-              style={styles.uploadBtn}
-              onPress={() => {
-                this.findNewImage();
-              }}
-            >
-              <Text style={{ color: "white" }}>Select Photo</Text>
-            </TouchableOpacity>
+          <View style={{ flex: 1 }}>
+            {this.state.imageSelected == true ? (
+              <View style={{ flex: 1 }}>
+                <View style={styles.header}>
+                  <Text> Upload </Text>
+                </View>
+                <View style={{ padding: 5 }}>
+                  <Text style={{ marginTop: 5 }}>Choose Caption:</Text>
+                  <TextInput
+                    editable={true}
+                    placeholder={"Enter your caption..."}
+                    maxLength={100}
+                    multiline={true}
+                    numberOfLines={4}
+                    onChangeText={text => this.setState({ caption: text })}
+                    style={styles.textInput}
+                  />
+                </View>
+              </View>
+            ) : (
+              <View style={styles.container}>
+                <Text style={styles.uploadText}>Upload</Text>
+                <TouchableOpacity
+                  style={styles.uploadBtn}
+                  onPress={() => {
+                    this.findNewImage();
+                  }}
+                >
+                  <Text style={{ color: "white" }}>Select Photo</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         ) : (
           <View style={styles.container}>
@@ -165,6 +204,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: "blue",
     borderRadius: 5
+  },
+  header: {
+    height: 70,
+    paddingTop: 30,
+    backgroundColor: "white",
+    borderColor: "lightgrey",
+    borderBottomWidth: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  textInput: {
+    marginVertical: 10,
+    height: 100,
+    padding: 5,
+    borderColor: "grey",
+    borderWidth: 1,
+    borderRadius: 3,
+    backgroundColor: "white"
   }
 });
 export default upload;
