@@ -68,7 +68,7 @@ class upload extends Component {
       allowsEditing: true, // square image
       quality: 1 // 1 means 100%
     });
-    console.log(result);
+    console.log("result = ", result);
 
     // if it's not cancelled, means chosen photo
     // process image and upload to firebase database.
@@ -195,6 +195,7 @@ class upload extends Component {
     // now, add info to realtime-db in two locations. as feed & profile
     // add data to photo-obj and user-object
 
+    console.log("f.auth().currentUser ", f.auth().currentUser);
     // first to add photo to main feed of photos
     database.ref("/photos/" + imageId).set(photoObj);
 

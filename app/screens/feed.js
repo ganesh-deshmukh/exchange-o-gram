@@ -32,12 +32,12 @@ class feed extends Component {
 
   // function to convert timestamp to readable time
   timeConverter = timestamp => {
-    var t = new Date(timestamp * 1000);
-    var seconds = Math.floor((new Date() - t) / 1000);
+    let t = new Date(timestamp * 1000);
+    let seconds = Math.floor((new Date() - t) / 1000);
 
     // check this interval is in years/months/days/hours/minutes?
     // total no of seconds in year are 31536000
-    var interval = Math.floor(seconds / 31536000);
+    let interval = Math.floor(seconds / 31536000);
     if (interval > 1) {
       return interval + " year" + this.pluralCheck(interval);
     }
@@ -70,23 +70,25 @@ class feed extends Component {
 
   addToFlatList = (photo_feed, data, photo) => {
     // photo is index eg. for i in array
-    var that = this;
+    let that = this;
 
-    var photoObj = data[photo];
+    let photoObj = data[photo];
 
     // for each photo(photoObj) in data(snapshot-value),
     // get details of ea  ch user then push details to photo-feed-array
     database
       .ref("users")
       .child(photoObj.author)
-      .child("username") // now taking whole data as username
+      .child("username") // now taking data's username
       .once("value")
       .then(snapshot => {
+        // here snapshot is username, don't confuse as snapshot=whole-data
+        // console.log("snapshot value is username =", snapshot);
         // now we have access to userdetails of author of each-photo
         // we can directly show all photos.
 
         const exists = snapshot.val() !== null;
-        if (exists) data = snapshot.val(); // assign data=snapshot, only if it is not empty
+        if (exists) data = snapshot.val(); // assign data=username, only if it is not empty
 
         photo_feed.push({
           id: photo, // photo is like iterable=index eg. for i in array.
@@ -113,7 +115,7 @@ class feed extends Component {
       photo_feed: []
     });
 
-    var that = this; // to refere local object using this.
+    let that = this;
 
     database
       .ref("photos")
@@ -123,9 +125,9 @@ class feed extends Component {
         const exists = snapshot.val() !== null;
         if (exists) data = snapshot.val(); // assign data=snapshot, only if it is not empty
 
-        var photo_feed = that.state.photo_feed;
+        let photo_feed = that.state.photo_feed;
 
-        for (var photo in data) {
+        for (let photo in data) {
           that.addToFlatList(photo_feed, data, photo);
         } // end of for loop
       }) // end of then(snapshot=> function)
@@ -165,13 +167,14 @@ class feed extends Component {
             renderItem={({ item, index }) => (
               <View key={index} style={styles.flatlistImage}>
                 <View style={styles.postDetails}>
-                  {/* <Text>@{JSON.stringify(item.author)}</Text> */}
-                  {console.log(item.author)}
                   <Text>{item.posted} </Text>
+
+                  <Text style={{ marginLeft: "auto" }}>@{item.author}</Text>
+                  {/* {console.log(item.author)} */}
 
                   <TouchableOpacity
                     onPress={() => {
-                      console.log("item.authorId passed =", item.authorId);
+                      // console.log("item.authorId passed =", item.authorId);
                       this.props.navigation.navigate("User", {
                         userId: item.authorId
                         // we will go to userProfile-page,
