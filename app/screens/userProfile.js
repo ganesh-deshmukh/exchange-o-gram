@@ -31,7 +31,7 @@ class userProfile extends Component {
         });
         // if params are reveived as userId, then fetch user's profile using userId
         this.fetchUserInfo(params.userId);
-        // console.log("params.userId ", params.userId);
+        console.log("params.userId ", params.userId);
       }
     }
 
@@ -52,6 +52,7 @@ class userProfile extends Component {
         that.setState({
           username: data
         });
+        console.log("username in UserProfile = ", this.state.username);
       })
       .catch(e => console.log(e));
 
@@ -125,6 +126,10 @@ class userProfile extends Component {
 
               <View style={styles.profileDetails}>
                 <Text>{this.state.name}</Text>
+                {console.log(
+                  "username before displaying is ",
+                  this.state.username
+                )}
                 <Text>{this.state.username}</Text>
               </View>
             </View>

@@ -182,13 +182,13 @@ class PhotoList extends Component {
             renderItem={({ item, index }) => (
               <View key={index} style={styles.flatlistImage}>
                 <View style={styles.postDetails}>
-                  <Text>{item.posted} </Text>
+                  <Text>time is {item.posted} </Text>
 
                   {/* {console.log(item.author)} */}
 
                   <TouchableOpacity
                     onPress={() => {
-                      console.log("username clicked");
+                      console.log("username clicked =", item.authorId);
                       // console.log("item.authorId passed =", item.authorId);
                       this.props.navigation.navigate("User", {
                         userId: item.authorId
