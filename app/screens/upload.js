@@ -195,7 +195,7 @@ class upload extends Component {
     // now, add info to realtime-db in two locations. as feed & profile
     // add data to photo-obj and user-object
 
-    console.log("f.auth().currentUser ", f.auth().currentUser);
+    console.log("f.auth().currentUser.uid ", f.auth().currentUser.uid);
     // first to add photo to main feed of photos
     database.ref("/photos/" + imageId).set(photoObj);
 
@@ -210,6 +210,7 @@ class upload extends Component {
       imageSelected: false,
       caption: "",
       uri: ""
+      // refresh: true
     });
   };
 

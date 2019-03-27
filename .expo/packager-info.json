@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 14520,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
   "expoServerNgrokUrl": "https://s8-u76.anonymous.exchange-o-gram.exp.direct",
   "packagerNgrokUrl": "https://packager.s8-u76.anonymous.exchange-o-gram.exp.direct",
-  "ngrokPid": 14595,
+  "ngrokPid": 16991,
   "webpackServerPort": null
 }

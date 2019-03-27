@@ -1,16 +1,8 @@
 import React, { Component } from "react";
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList
-} from "react-native";
+import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
 import { f, auth, database, storage } from "../config/config";
-console.disableYellowBox = true;
 
-class feed extends Component {
+export default class PhotoList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,9 +11,17 @@ class feed extends Component {
       loading: true
     };
   }
+
   componentDidMount = () => {
-    // Load Feed function
-    this.loadFeed();
+    const { isUser, userId } = this.props;
+
+    if (isUser) {
+      // Profile, authenticated
+      // userId
+      this.loadFeed(userId);
+    } else {
+      this.loadFeed("");
+    }
   };
 
   // check singular or plural time for "ago"
@@ -57,6 +57,7 @@ class feed extends Component {
     if (interval > 1) {
       return interval + " hour" + this.pluralCheck(interval);
     }
+    // for minutes
     interval = Math.floor(seconds / 60);
     if (interval > 1) {
       return interval + " minute" + this.pluralCheck(interval);
@@ -109,15 +110,23 @@ class feed extends Component {
       });
   };
 
-  loadFeed = () => {
+  loadFeed = (userId = "") => {
     this.setState({
       refresh: true,
       photo_feed: []
     });
+    // console.log("photo_feed ", this.state.photo_feed);
 
     let that = this;
 
-    console.log("photo_feed ", this.state.photo_feed);
+    let loadRef = database.ref("photos");
+    if (userId != "") {
+      // means some user is there
+      loadRef = database
+        .ref("users")
+        .child(userId)
+        .child("photos");
+    }
 
     database
       .ref("photos")
@@ -145,11 +154,7 @@ class feed extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text> Feed </Text>
-        </View>
-
+      <View>
         {this.state.loading === true ? (
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -226,37 +231,3 @@ class feed extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  header: {
-    height: 70,
-    paddingTop: 30,
-    backgroundColor: "white",
-    borderColor: "lightgrey",
-    borderBottomWidth: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  profilephoto: {
-    resizeMode: "cover",
-    width: "100%",
-    height: 280
-  },
-  flatlistImage: {
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderColor: "grey",
-    width: "100%",
-    overflow: "hidden",
-    marginBottom: 5
-  },
-  postDetails: {
-    padding: 5,
-    flexDirection: "row",
-    justifyContent: "space-between"
-  }
-});
-export default feed;

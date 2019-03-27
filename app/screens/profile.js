@@ -7,7 +7,7 @@ import {
   Text,
   StyleSheet
 } from "react-native";
-
+import PhotoList from "../components/photoList";
 import { f, auth, database, storage } from "../config/config";
 
 class profile extends Component {
@@ -25,7 +25,8 @@ class profile extends Component {
       if (user) {
         // Loggedin
         that.setState({
-          loggedin: true
+          loggedin: true,
+          userId: user.uid
         });
       } else {
         // Not-Loggedin
@@ -75,9 +76,12 @@ class profile extends Component {
                 <Text style={styles.uploadText}>+ Upload New Photo </Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.photoLoading}>
-              <Text>Loading Photos</Text>
-            </View>
+
+            <PhotoList
+              isUser={true}
+              userId={this.state.userId}
+              navigation={this.props.navigation}
+            />
           </View>
         ) : (
           // if user is not authenticated
