@@ -134,6 +134,10 @@ class userProfile extends Component {
               </View>
             </View>
             <View style={{ paddingBottom: 20, borderBottomWidth: 1 }} />
+            {console.log(
+              "userId sent through userProfile =",
+              this.state.userId
+            )}
             <PhotoList
               isUser={true}
               userId={this.state.userId}

@@ -22,9 +22,11 @@ class PhotoList extends Component {
   componentDidMount = () => {
     const { isUser, userId } = this.props;
 
+    console.log("photoList receives data, userId= ", this.props.userId); //why undefined
+
     if (isUser) {
       // Profile, authenticated
-      // userId
+      // userId, and show private photos of this user-only
       this.loadFeed(userId);
     } else {
       this.loadFeed("");
@@ -64,7 +66,6 @@ class PhotoList extends Component {
     if (interval > 1) {
       return interval + " hour" + this.pluralCheck(interval);
     }
-    // for minutes
     interval = Math.floor(seconds / 60);
     if (interval > 1) {
       return interval + " minute" + this.pluralCheck(interval);
@@ -77,7 +78,6 @@ class PhotoList extends Component {
   //***** */ display flatlist main function *****
 
   addToFlatList = (photo_feed, data, photo) => {
-    // console.log("addToFlatList is called ");
     // photo is index eg. for i in array
     let that = this;
 
@@ -91,7 +91,6 @@ class PhotoList extends Component {
       .child("username") // now taking data's username
       .once("value")
       .then(snapshot => {
-        // console.log(" snapshot = username =", snapshot); // for testing usernames
         // here snapshot is username, don't confuse as snapshot=whole-data
         // console.log("snapshot value is username =", snapshot);
         // now we have access to userdetails of author of each-photo
@@ -124,13 +123,11 @@ class PhotoList extends Component {
       refresh: true,
       photo_feed: []
     });
-    // console.log("photo_feed ", this.state.photo_feed);
 
     let that = this;
 
     let loadRef = database.ref("photos");
     if (userId != "") {
-      // means some user is there
       loadRef = database
         .ref("users")
         .child(userId)
@@ -162,7 +159,7 @@ class PhotoList extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         {this.state.loading === true ? (
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -182,13 +179,13 @@ class PhotoList extends Component {
             renderItem={({ item, index }) => (
               <View key={index} style={styles.flatlistImage}>
                 <View style={styles.postDetails}>
-                  <Text>time is {item.posted} </Text>
+                  <Text>{item.posted} </Text>
 
                   {/* {console.log(item.author)} */}
 
                   <TouchableOpacity
                     onPress={() => {
-                      console.log("username clicked is =", item.authorId);
+                      console.log("username clicked");
                       // console.log("item.authorId passed =", item.authorId);
                       this.props.navigation.navigate("User", {
                         userId: item.authorId

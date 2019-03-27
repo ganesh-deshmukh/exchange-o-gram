@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   upload: {
     marginTop: 10,
     marginHorizontal: 40,
-    paddingVertical: 35,
+    paddingVertical: 15,
     borderRadius: 25,
     backgroundColor: "grey",
     borderColor: "grey",
