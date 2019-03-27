@@ -17,7 +17,26 @@ class upload extends Component {
       comment_list: []
     };
   }
-  checkParams = () => {};
+  checkParams = () => {
+    // check if username is passed through userProfile.js or not.
+    let params = this.props.navigation.state.params;
+    // console.log(" params= ", params);
+
+    if (params) {
+      if (params.photoId) {
+        this.setState({
+          photoId: params.photoId
+        });
+        // if params are reveived as userId, then fetch user's profile using userId
+        this.fetchComments(params.photoId);
+        // console.log("params.userId ", params.userId);
+      }
+    }
+
+    fetchComments =  (photoId) =>{
+
+    }// fetching comments.f
+
 
   s4 = () => {
     return Math.floor((1 + Math.random()) * 0x1000)
@@ -81,6 +100,8 @@ class upload extends Component {
     return Math.floor(seconds) + " second" + this.pluralCheck(seconds);
   };
 
+
+
   componentDidMount = () => {
     // set variable that=this, for binding
     var that = this;
@@ -114,6 +135,22 @@ class upload extends Component {
           <Text> Comments Header </Text>
           <Text style={{ width: 100 }}> </Text>
         </View>
+
+        {
+          this.state.comment_list.length == 0 ?
+
+          (
+            // no comments
+          ) :(
+            // comments can be present
+            <FlatList
+            data = {this.state.comment_list.length == 0 }
+
+
+            />
+          )
+        }
+
 
         {this.state.loggedin == true ? (
           // true-> you are loggedin
