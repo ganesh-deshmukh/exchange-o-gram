@@ -185,7 +185,7 @@ class upload extends Component {
     // we have uploaded img to storage, but we have to link that url with realtime-db
     // photo-json = author, caption, posted-timestamp, urlofimg
 
-    var photoObj = {
+    let photoObj = {
       author: userId,
       caption: caption,
       posted: timestamp,

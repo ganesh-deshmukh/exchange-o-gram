@@ -71,6 +71,7 @@ class feed extends Component {
   addToFlatList = (photo_feed, data, photo) => {
     // photo is index eg. for i in array
     var that = this;
+
     var photoObj = data[photo];
 
     // for each photo(photoObj) in data(snapshot-value),
@@ -156,7 +157,7 @@ class feed extends Component {
             refreshing={this.state.refresh}
             onRefresh={this.loadNew}
             data={this.state.photo_feed}
-            keyExtractor={(item, index) => "" + index}
+            keyExtractor={(item, index) => index.toString()}
             style={{
               backgroundColor: "#eee",
               flex: 1
@@ -164,6 +165,8 @@ class feed extends Component {
             renderItem={({ item, index }) => (
               <View key={index} style={styles.flatlistImage}>
                 <View style={styles.postDetails}>
+                  {/* <Text>@{JSON.stringify(item.author)}</Text> */}
+                  {console.log(item.author)}
                   <Text>{item.posted} </Text>
 
                   <TouchableOpacity
@@ -175,9 +178,7 @@ class feed extends Component {
                         // because navigate->Users={screen:userProfile} in app.js in MainStack
                       });
                     }}
-                  >
-                    <Text>@{item.author}</Text>
-                  </TouchableOpacity>
+                  />
                 </View>
                 <View>
                   <Image
