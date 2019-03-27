@@ -9,6 +9,7 @@ import {
 } from "react-native";
 
 import { f, auth, database, storage } from "../config/config";
+import PhotoList from "../components/photoList";
 
 class userProfile extends Component {
   constructor(props) {
@@ -128,9 +129,11 @@ class userProfile extends Component {
               </View>
             </View>
             <View style={{ paddingBottom: 20, borderBottomWidth: 1 }} />
-            <View style={styles.photoLoading}>
-              <Text>Loading Photos</Text>
-            </View>
+            <PhotoList
+              isUser={true}
+              userId={this.state.userId}
+              navigation={this.props.navigation}
+            />
           </View>
         )}
       </View>
