@@ -188,7 +188,7 @@ class PhotoList extends Component {
 
                   <TouchableOpacity
                     onPress={() => {
-                      console.log("username clicked =", item.authorId);
+                      console.log("username clicked is =", item.authorId);
                       // console.log("item.authorId passed =", item.authorId);
                       this.props.navigation.navigate("User", {
                         userId: item.authorId
