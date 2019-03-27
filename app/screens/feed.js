@@ -117,7 +117,7 @@ class feed extends Component {
 
     let that = this;
 
-    console.log("photo_feed ", this.state.photo_feed);
+    // console.log("photo_feed ", this.state.photo_feed);
 
     database
       .ref("photos")

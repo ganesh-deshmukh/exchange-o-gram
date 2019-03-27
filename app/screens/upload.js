@@ -68,7 +68,7 @@ class upload extends Component {
       allowsEditing: true, // square image
       quality: 1 // 1 means 100%
     });
-    console.log("result = ", result);
+    // console.log("result = ", result);
 
     // if it's not cancelled, means chosen photo
     // process image and upload to firebase database.

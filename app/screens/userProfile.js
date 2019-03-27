@@ -30,7 +30,7 @@ class userProfile extends Component {
         });
         // if params are reveived as userId, then fetch user's profile using userId
         this.fetchUserInfo(params.userId);
-        console.log("params.userId ", params.userId);
+        // console.log("params.userId ", params.userId);
       }
     }
 

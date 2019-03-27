@@ -1,8 +1,15 @@
 import React, { Component } from "react";
-import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList
+} from "react-native";
 import { f, auth, database, storage } from "../config/config";
 
-export default class PhotoList extends Component {
+class PhotoList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,6 +77,7 @@ export default class PhotoList extends Component {
   //***** */ display flatlist main function *****
 
   addToFlatList = (photo_feed, data, photo) => {
+    // console.log("addToFlatList is called ");
     // photo is index eg. for i in array
     let that = this;
 
@@ -83,6 +91,7 @@ export default class PhotoList extends Component {
       .child("username") // now taking data's username
       .once("value")
       .then(snapshot => {
+        // console.log(" snapshot = username =", snapshot); // for testing usernames
         // here snapshot is username, don't confuse as snapshot=whole-data
         // console.log("snapshot value is username =", snapshot);
         // now we have access to userdetails of author of each-photo
@@ -128,8 +137,7 @@ export default class PhotoList extends Component {
         .child("photos");
     }
 
-    database
-      .ref("photos")
+    loadRef
       .orderByChild("posted")
       .once("value")
       .then(snapshot => {
@@ -154,7 +162,7 @@ export default class PhotoList extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         {this.state.loading === true ? (
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -231,3 +239,38 @@ export default class PhotoList extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  header: {
+    height: 70,
+    paddingTop: 30,
+    backgroundColor: "white",
+    borderColor: "lightgrey",
+    borderBottomWidth: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  profilephoto: {
+    resizeMode: "cover",
+    width: "100%",
+    height: 280
+  },
+  flatlistImage: {
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderColor: "grey",
+    width: "100%",
+    overflow: "hidden",
+    marginBottom: 5
+  },
+  postDetails: {
+    padding: 5,
+    flexDirection: "row",
+    justifyContent: "space-between"
+  }
+});
+
+export default PhotoList;
