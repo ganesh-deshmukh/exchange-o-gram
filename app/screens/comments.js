@@ -9,21 +9,24 @@ import {
 } from "react-native";
 import { f, auth, database, storage } from "../config/config";
 
-class upload extends Component {
+class comments extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedin: false,
-      comment_list: []
+      loggedin: true,
+      comments_list: []
     };
   }
+
   checkParams = () => {
     // check if username is passed through userProfile.js or not.
     let params = this.props.navigation.state.params;
+    console.log("params =", params);
     // console.log(" params= ", params);
 
     if (params) {
       if (params.photoId) {
+        console.log("params.photoId in comments.js", params.photoId);
         this.setState({
           photoId: params.photoId
         });
@@ -32,11 +35,65 @@ class upload extends Component {
         // console.log("params.userId ", params.userId);
       }
     }
+  };
+  addCommentToList = (comments_list, data, comment) => {
+    console.log("comments_list, data, comment", comments_list, data, comment);
 
-    fetchComments =  (photoId) =>{
+    var that = this;
+    var commentObj = data[comment];
+    database
+      .ref("users")
+      .child(commentObj.author)
+      .child(username)
+      .once("value")
+      .then(snapshot => {
+        const exists = snapshot.val() != null;
+        if (exists) data = snapshot.val();
+        comments_list.push({
+          id: comment,
+          comment: commentObj.comment,
+          timestamp: that.timeConverter(commentObj.posted),
+          author: data,
+          authorId: commentObj.author
+        });
 
-    }// fetching comments.f
+        that.setState({
+          refresh: false,
+          loading: false
+        });
+      });
+    // .catch(e => console.log(e));
+  };
 
+  fetchComments = photoId => {
+    let that = this;
+    database
+      .ref("comments")
+      .child(photoId)
+      .orderByChild("posted")
+      .once("value")
+      .then(snapshot => {
+        const exists = snapshot.val() != null;
+        if (exists) {
+          // add comments to flatList
+          data = snapshot.val();
+          var comments_list = this.state.comments_list;
+
+          for (var comment in data) {
+            this.addCommentToList(comments_list, data, comment);
+          }
+        } else {
+          // no any comment found
+          this.setState({
+            comments_list: []
+          });
+        }
+      });
+    // .catch(
+    //   error => console.log("error in comment.js file in fetchComments"),
+    //   error
+    // );
+  }; // fetching comments.f
 
   s4 = () => {
     return Math.floor((1 + Math.random()) * 0x1000)
@@ -99,19 +156,21 @@ class upload extends Component {
     // for seconds
     return Math.floor(seconds) + " second" + this.pluralCheck(seconds);
   };
-
-
+  // timeConverter-function ends here.
 
   componentDidMount = () => {
     // set variable that=this, for binding
     var that = this;
     f.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log("User Loggedin in comments.js");
+
         // Loggedin
         that.setState({
           loggedin: true
         });
       } else {
+        console.log("User Not Loggedin in comments.js");
         // Not-Loggedin
         that.setState({
           loggedin: false
@@ -136,21 +195,37 @@ class upload extends Component {
           <Text style={{ width: 100 }}> </Text>
         </View>
 
-        {
-          this.state.comment_list.length == 0 ?
-
-          (
-            // no comments
-          ) :(
-            // comments can be present
-            <FlatList
-            data = {this.state.comment_list.length == 0 }
-
-
-            />
-          )
-        }
-
+        {this.state.comments_list.length == 0 ? (
+          // no comments {console.log("No comments");}
+          <Text>No Comments found in DB.</Text>
+        ) : (
+          <FlatList
+            refreshing={this.state.refresh}
+            data={this.state.comments_list.length}
+            keyExtractor={(item, index) => {
+              index.toString();
+            }}
+            style={{ flex: 1, backgroundColor: "#eee" }}
+            renderItem={({ item, index }) => (
+              <View
+                style={{
+                  width: "100%",
+                  overflow: "hidden",
+                  marginBottom: 5,
+                  justifyContent: "space-between",
+                  borderColor: "grey"
+                }}
+              >
+                <View>
+                  <Text>{item.posted}</Text>
+                  <TouchableOpacity>
+                    <Text>{item.author}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          />
+        )}
 
         {this.state.loggedin == true ? (
           // true-> you are loggedin
@@ -163,9 +238,13 @@ class upload extends Component {
         )}
       </View>
     );
-  }
+  } // end of render()
 }
 const styles = StyleSheet.create({
+  flatlistView: {
+    width: "100%",
+    overflow: "hidden"
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff"
@@ -180,10 +259,56 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center"
   },
+  profile: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    paddingVertical: 10
+  },
+  profilePicture: {
+    marginLeft: 10,
+    width: 100,
+    height: 100,
+    borderRadius: 50
+  },
+  profileDetails: {
+    marginRight: 10
+  },
+  buttons: {
+    marginTop: 10,
+    marginHorizontal: 40,
+    paddingVertical: 15,
+    borderRadius: 25,
+    borderColor: "grey",
+    borderWidth: 1.5
+  },
+  upload: {
+    marginTop: 10,
+    marginHorizontal: 40,
+    paddingVertical: 35,
+    borderRadius: 25,
+    backgroundColor: "grey",
+    borderColor: "grey",
+    borderWidth: 1.5
+  },
+  labels: {
+    textAlign: "center",
+    color: "grey"
+  },
+  uploadText: {
+    textAlign: "center",
+    color: "white"
+  },
+  photoLoading: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "green"
+  },
   goBackLabel: {
     fontSize: 13,
     fontWeight: "bold",
     paddingLeft: 5
   }
 });
-export default upload;
+export default comments;

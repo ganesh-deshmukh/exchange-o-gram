@@ -22,7 +22,7 @@ class PhotoList extends Component {
   componentDidMount = () => {
     const { isUser, userId } = this.props;
 
-    console.log("photoList receives data, userId= ", this.props.userId); //why undefined
+    // console.log("photoList receives data, userId= ", this.props.userId); //why undefined
 
     if (isUser) {
       // Profile, authenticated
@@ -153,7 +153,7 @@ class PhotoList extends Component {
   };
 
   loadNew = () => {
-    console.log("LoadNew() is called");
+    // console.log("LoadNew() is called");
     this.loadFeed();
   };
 
@@ -185,7 +185,7 @@ class PhotoList extends Component {
 
                   <TouchableOpacity
                     onPress={() => {
-                      console.log("username clicked");
+                      // console.log("username clicked");
                       // console.log("item.authorId passed =", item.authorId);
                       this.props.navigation.navigate("User", {
                         userId: item.authorId
@@ -210,7 +210,7 @@ class PhotoList extends Component {
                   <TouchableOpacity
                     onPress={() => {
                       this.props.navigation.navigate("Comments", {
-                        userId: item.id
+                        photoId: item.id
                         // in photo_feed, item.id= photo-id.
                         // pass photoid to show respective comments of that photo.
                       });

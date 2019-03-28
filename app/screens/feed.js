@@ -21,7 +21,9 @@ class feed extends Component {
       loading: true
     };
   }
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    console.log("feed.js componentDidMount is working");
+  };
 
   render() {
     return (
@@ -30,7 +32,11 @@ class feed extends Component {
           <Text> Feed </Text>
         </View>
 
-        <PhotoList isUser={false} navigation={this.props.navigation} />
+        <PhotoList
+          isUser={true}
+          userId={this.state.userId}
+          navigation={this.props.navigation}
+        />
       </View>
     );
   }
