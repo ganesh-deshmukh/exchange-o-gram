@@ -190,6 +190,7 @@ class comments extends Component {
   };
 
   render() {
+    var i = 0;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -202,21 +203,23 @@ class comments extends Component {
           <Text> Comments Header </Text>
           <Text style={{ width: 100 }}> </Text>
         </View>
-
+        {console.log("this.state.comments_list =", this.state.comments_list)}
         {this.state.comments_list.length == 0 ? (
           // no comments {console.log("No comments");}
           <Text>No Comments found in DB.</Text>
         ) : (
+          // <Text>comments</Text>
           <FlatList
             refreshing={this.state.refresh}
             data={this.state.comments_list}
             keyExtractor={(item, index) => {
-              index.toString();
+              item.id;
+              console.log("item.id is =", item.id);
             }}
             style={{ flex: 1, backgroundColor: "#eee" }}
             renderItem={({ item, index }) => (
               <View
-                key={index.toString()}
+                key={item.id}
                 style={{
                   width: "100%",
                   overflow: "hidden",
@@ -226,7 +229,7 @@ class comments extends Component {
                 }}
               >
                 <View style={{ padding: 5 }}>
-                  <Text>{item.posted}</Text>
+                  <Text>time: {item.posted}</Text>
                   <TouchableOpacity>
                     <Text>{item.author}</Text>
                   </TouchableOpacity>
