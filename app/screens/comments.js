@@ -5,7 +5,8 @@ import {
   KeyboardAvoidingView,
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  FlatList
 } from "react-native";
 import { f, auth, database, storage } from "../config/config";
 
@@ -36,6 +37,7 @@ class comments extends Component {
       }
     }
   };
+
   addCommentToList = (comments_list, data, comment) => {
     console.log("comments_list, data, comment", comments_list, data, comment);
 
@@ -44,9 +46,11 @@ class comments extends Component {
     database
       .ref("users")
       .child(commentObj.author)
-      .child(username)
+      .child("username")
       .once("value")
       .then(snapshot => {
+        console.log("snapshot is username \n ", snapshot);
+        // here, snapshot = username
         const exists = snapshot.val() != null;
         if (exists) data = snapshot.val();
         comments_list.push({
@@ -57,12 +61,16 @@ class comments extends Component {
           authorId: commentObj.author
         });
 
+        console.log("addCommentToList, comment is commentObj.comment", comment);
+
         that.setState({
           refresh: false,
           loading: false
         });
-      });
-    // .catch(e => console.log(e));
+      })
+      .catch(error =>
+        console.log("error in addCommentToList in comments", error)
+      );
   };
 
   fetchComments = photoId => {
@@ -75,12 +83,13 @@ class comments extends Component {
       .then(snapshot => {
         const exists = snapshot.val() != null;
         if (exists) {
+          console.log("snapshot = comment-object", snapshot.val());
           // add comments to flatList
           data = snapshot.val();
-          var comments_list = this.state.comments_list;
+          var comments_list = that.state.comments_list;
 
           for (var comment in data) {
-            this.addCommentToList(comments_list, data, comment);
+            that.addCommentToList(comments_list, data, comment);
           }
         } else {
           // no any comment found
@@ -88,11 +97,10 @@ class comments extends Component {
             comments_list: []
           });
         }
-      });
-    // .catch(
-    //   error => console.log("error in comment.js file in fetchComments"),
-    //   error
-    // );
+      })
+      .catch(error =>
+        console.log("error in comment.js file in fetchComments", error)
+      );
   }; // fetching comments.f
 
   s4 = () => {
@@ -201,13 +209,14 @@ class comments extends Component {
         ) : (
           <FlatList
             refreshing={this.state.refresh}
-            data={this.state.comments_list.length}
+            data={this.state.comments_list}
             keyExtractor={(item, index) => {
               index.toString();
             }}
             style={{ flex: 1, backgroundColor: "#eee" }}
             renderItem={({ item, index }) => (
               <View
+                key={index.toString()}
                 style={{
                   width: "100%",
                   overflow: "hidden",
@@ -216,11 +225,15 @@ class comments extends Component {
                   borderColor: "grey"
                 }}
               >
-                <View>
+                <View style={{ padding: 5 }}>
                   <Text>{item.posted}</Text>
                   <TouchableOpacity>
                     <Text>{item.author}</Text>
                   </TouchableOpacity>
+                </View>
+
+                <View>
+                  <Text>{item.comment}</Text>
                 </View>
               </View>
             )}
