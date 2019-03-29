@@ -9,6 +9,7 @@ import {
   StyleSheet
 } from "react-native";
 import PhotoList from "../components/photoList";
+import UserAuth from "../components/auth";
 import { f, auth, database, storage } from "../config/config";
 
 class profile extends Component {
@@ -202,10 +203,7 @@ class profile extends Component {
           </View>
         ) : (
           // if user is not authenticated
-          <View style={styles.container}>
-            <Text>You are not-Logged in</Text>
-            <Text>Please Logged in</Text>
-          </View>
+          <UserAuth message={"Please Login to View Profile"} />
         )}
       </View>
     );

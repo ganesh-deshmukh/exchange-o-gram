@@ -9,6 +9,7 @@ import {
   StyleSheet
 } from "react-native";
 import { f, auth, database, storage } from "../config/config";
+import UserAuth from "../components/auth";
 
 import { Permissions, ImagePicker } from "expo";
 console.disableYellowBox = true;
@@ -309,10 +310,8 @@ class upload extends Component {
             )}
           </View>
         ) : (
-          <View style={styles.container}>
-            <Text>You are not-Logged in, can't upload photos</Text>
-            <Text>Please Logged in</Text>
-          </View>
+          // if user is not authenticated
+          <UserAuth message={"Please Login to Upload Photo"} />
         )}
       </View>
     );

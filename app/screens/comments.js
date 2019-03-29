@@ -9,6 +9,7 @@ import {
   FlatList
 } from "react-native";
 import { f, auth, database, storage } from "../config/config";
+import UserAuth from "../components/auth";
 
 class comments extends Component {
   constructor(props) {
@@ -318,10 +319,8 @@ class comments extends Component {
             </View>
           </KeyboardAvoidingView>
         ) : (
-          <View>
-            <Text>You are not-Logged in, can't post your comments</Text>
-            <Text>Please Logged in</Text>
-          </View>
+          // if user is not authenticated
+          <UserAuth message={"Please Login to Comment on Photo"} />
         )}
       </View>
     );
