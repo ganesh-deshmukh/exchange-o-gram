@@ -22,12 +22,12 @@ class comments extends Component {
   checkParams = () => {
     // check if username is passed through userProfile.js or not.
     let params = this.props.navigation.state.params;
-    console.log("params =", params);
+    // console.log("params =", params);
     // console.log(" params= ", params);
 
     if (params) {
       if (params.photoId) {
-        console.log("params.photoId in comments.js", params.photoId);
+        // console.log("params.photoId in comments.js", params.photoId);
         this.setState({
           photoId: params.photoId
         });
@@ -39,7 +39,7 @@ class comments extends Component {
   };
 
   addCommentToList = (comments_list, data, comment) => {
-    console.log("comments_list, data, comment", comments_list, data, comment);
+    // console.log("comments_list, data, comment", comments_list, data, comment);
 
     var that = this;
     var commentObj = data[comment];
@@ -49,7 +49,7 @@ class comments extends Component {
       .child("username")
       .once("value")
       .then(snapshot => {
-        console.log("snapshot is username \n ", snapshot);
+        // console.log("snapshot is username \n ", snapshot);
         // here, snapshot = username
         const exists = snapshot.val() != null;
         if (exists) data = snapshot.val();
@@ -61,7 +61,7 @@ class comments extends Component {
           authorId: commentObj.author
         });
 
-        console.log("addCommentToList, comment is commentObj.comment", comment);
+        // console.log("addCommentToList, comment is commentObj.comment", comment);
 
         that.setState({
           refresh: false,
@@ -83,7 +83,7 @@ class comments extends Component {
       .then(snapshot => {
         const exists = snapshot.val() != null;
         if (exists) {
-          console.log("snapshot = comment-object", snapshot.val());
+          // console.log("snapshot = comment-object", snapshot.val());
           // add comments to flatList
           data = snapshot.val();
           var comments_list = that.state.comments_list;
@@ -171,14 +171,14 @@ class comments extends Component {
     var that = this;
     f.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log("User Loggedin in comments.js");
+        // console.log("User Loggedin in comments.js");
 
         // Loggedin
         that.setState({
           loggedin: true
         });
       } else {
-        console.log("User Not Loggedin in comments.js");
+        // console.log("User Not Loggedin in comments.js");
         // Not-Loggedin
         that.setState({
           loggedin: false
@@ -203,7 +203,7 @@ class comments extends Component {
           <Text> Comments Header </Text>
           <Text style={{ width: 100 }}> </Text>
         </View>
-        {console.log("this.state.comments_list =", this.state.comments_list)}
+        {/* {console.log("this.state.comments_list =", this.state.comments_list)} */}
         {this.state.comments_list.length == 0 ? (
           // no comments {console.log("No comments");}
           <Text>No Comments found in DB.</Text>
@@ -213,8 +213,8 @@ class comments extends Component {
             refreshing={this.state.refresh}
             data={this.state.comments_list}
             keyExtractor={(item, index) => {
-              item.id;
-              console.log("item.id is =", item.id);
+              console.log("item.id ", item.id);
+              return item.id;
             }}
             style={{ flex: 1, backgroundColor: "#eee" }}
             renderItem={({ item, index }) => (
@@ -229,7 +229,7 @@ class comments extends Component {
                 }}
               >
                 <View style={{ padding: 5 }}>
-                  <Text>time: {item.posted}</Text>
+                  <Text>time: {item.timestamp}</Text>
                   <TouchableOpacity>
                     <Text>{item.author}</Text>
                   </TouchableOpacity>
