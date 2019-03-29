@@ -19,15 +19,51 @@ class UserAuth extends Component {
       moveScreen: false
     };
   }
+
+  login = async () => {
+    // force user to login, using try-cache
+    try {
+      // no errors,
+      let user = await auth.signInWithEmailAndPassword(
+        "test@user.com",
+        "password"
+      );
+      // alert("user successfully loggedin");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   componentDidMount = () => {
-    console.log("cdm");
+    // console.log("cdm");
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>You are not-Logged in, can't post your comments</Text>
+        <Text>You are not-Logged in</Text>
         <Text>{this.props.message}</Text>
+        {this.state.authStep == 0 ? (
+          <View style={styles.btnList}>
+            <TouchableOpacity onPress={() => this.setState({ authStep: 1 })}>
+              <Text style={styles.loginLabel}>Login</Text>
+            </TouchableOpacity>
+            <Text style={{ marginHorizontal: 10 }}> or</Text>
+            <TouchableOpacity onPress={() => this.setState({ authStep: 2 })}>
+              <Text style={styles.loginLabel}>SignUp</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={{ marginVertical: 20 }}>
+            {this.state.login == 1 ? (
+              // login user
+              <Text>Login Page</Text>
+            ) : (
+              // signup user
+              <Text>SignUp Page</Text>
+            )}
+          </View>
+        )}
       </View>
     );
   } // end of render()
@@ -39,6 +75,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#eee",
     justifyContent: "center",
     alignItems: "center"
+  },
+  btnList: {
+    flexDirection: "row",
+    marginVertical: 20
+  },
+  loginLabel: {
+    fontWeight: "bold",
+    color: "green"
+  },
+  signUpLabel: {
+    fontWeight: "bold",
+    color: "blue"
   }
 });
 
