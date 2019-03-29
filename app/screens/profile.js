@@ -90,7 +90,7 @@ class profile extends Component {
 
               <View style={styles.profileDetails}>
                 <Text>Name: {this.state.name} </Text>
-                <Text>@username: {this.state.username} </Text>
+                <Text>Username: {this.state.username}</Text>
               </View>
             </View>
 
@@ -100,7 +100,7 @@ class profile extends Component {
               <View style={styles.editProfileView}>
                 {/* View for Buttons Name and Username */}
                 <View style={styles.editUserInfoName}>
-                  <Text>Name:</Text>
+                  <Text style={styles.inputLabelText}>Name:</Text>
                   <TextInput
                     style={styles.textInputArea}
                     editable={true}
@@ -112,7 +112,7 @@ class profile extends Component {
                   />
                 </View>
                 <View style={styles.editUserInfoName}>
-                  <Text>Username:</Text>
+                  <Text style={styles.inputLabelText}>Username:</Text>
                   <TextInput
                     style={styles.textInputArea}
                     editable={true}
@@ -123,19 +123,21 @@ class profile extends Component {
                     }}
                   />
                 </View>
+
+                {/* view for two buttons */}
                 <View style={styles.editAndCancellBtnView}>
                   <TouchableOpacity
                     style={styles.cancelButton}
                     onPress={() => this.setState({ editingProfile: false })}
                   >
-                    <Text style={{ color: "white" }}>Cancel Editing</Text>
+                    <Text style={{ color: "white" }}>Cancel Edit</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={styles.cancelButton}
+                    style={styles.saveButton}
                     onPress={() => this.saveProfile()}
                   >
-                    <Text style={{ color: "white" }}>Save Edited Profile</Text>
+                    <Text style={{ color: "white" }}>Save Profile</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -193,8 +195,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   header: {
-    height: 70,
-    paddingTop: 30,
+    height: 50,
+    paddingTop: 20,
     backgroundColor: "white",
     borderColor: "lightgrey",
     borderBottomWidth: 1,
@@ -214,7 +216,8 @@ const styles = StyleSheet.create({
     borderRadius: 50
   },
   profileDetails: {
-    marginRight: 10
+    marginRight: 10,
+    alignItems: "flex-start"
   },
   buttons: {
     marginTop: 10,
@@ -258,30 +261,43 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   },
   textInputArea: {
-    width: 100,
-    marginVertical: 10,
+    width: 250,
+    marginVertical: 5,
     padding: 5,
+    borderWidth: 1,
     borderColor: "grey",
-    borderWidth: 5
+    marginLeft: "auto"
   },
   cancelButton: {
+    flex: 1,
+    marginHorizontal: 10,
     fontWeight: "bold",
     backgroundColor: "blue",
     padding: 10,
-    borderRadius: 3,
-    borderWidth: 3,
     alignItems: "center",
     justifyContent: "center"
   },
+  saveButton: {
+    flex: 1,
+    marginHorizontal: 5,
+    fontWeight: "bold",
+    backgroundColor: "green",
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+
   editAndCancellBtnView: {
     flexDirection: "row",
     justifyContent: "space-between"
-
-    // alignContent: "space-around"
   },
 
   editUserInfoName: {
-    alignContent: "space-between"
+    flexDirection: "row"
+  },
+
+  inputLabelText: {
+    alignSelf: "center"
   }
 });
 export default profile;
