@@ -189,8 +189,10 @@ class comments extends Component {
     this.checkParams();
   };
 
+  postComment = () => {
+    console.log("posting post");
+  };
   render() {
-    var i = 0;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -206,16 +208,15 @@ class comments extends Component {
         {/* {console.log("this.state.comments_list =", this.state.comments_list)} */}
         {this.state.comments_list.length == 0 ? (
           // no comments {console.log("No comments");}
-          <Text>No Comments found in DB.</Text>
+          <Text style={{ backgroundColor: "#eee" }}>
+            No Comments found in DB.
+          </Text>
         ) : (
           // <Text>comments</Text>
           <FlatList
             refreshing={this.state.refresh}
             data={this.state.comments_list}
-            keyExtractor={(item, index) => {
-              console.log("item.id ", item.id);
-              return item.id;
-            }}
+            keyExtractor={(item, index) => item.id}
             style={{ flex: 1, backgroundColor: "#eee" }}
             renderItem={({ item, index }) => (
               <View
@@ -245,7 +246,30 @@ class comments extends Component {
 
         {this.state.loggedin == true ? (
           // true-> you are loggedin
-          <Text>Your comments...</Text>
+          <KeyboardAvoidingView
+            behavior="padding"
+            enabled
+            style={styles.keyboardView}
+          >
+            <Text style={{ fontWeight: "bold" }}>Post Your Comment.</Text>
+
+            <View>
+              <TextInput
+                editable={true}
+                placeholder={"Enter your Comment."}
+                onChangeText={text =>
+                  this.setState({
+                    comment: text
+                  })
+                }
+                style={styles.textInputColor}
+              />
+
+              <TouchableOpacity onPress={() => this.postComment()}>
+                <Text>Post</Text>
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
         ) : (
           <View>
             <Text>You are not-Logged in, can't post your comments</Text>
@@ -256,6 +280,7 @@ class comments extends Component {
     );
   } // end of render()
 }
+
 const styles = StyleSheet.create({
   flatlistView: {
     width: "100%",
@@ -263,7 +288,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#eee"
   },
   header: {
     flexDirection: "row",
@@ -325,6 +350,21 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold",
     paddingLeft: 5
+  },
+  keyboardView: {
+    borderWidth: 1,
+    borderColor: "grey",
+    padding: 10,
+    marginBottom: 15
+  },
+  textInputColor: {
+    padding: 5,
+    marginVertical: 10,
+    height: 50,
+    borderColor: "red",
+    borderRadius: 3,
+    backgroundColor: "white",
+    color: "black"
   }
 });
 export default comments;
