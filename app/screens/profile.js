@@ -14,7 +14,8 @@ class profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedin: false
+      loggedin: false,
+      editProfile: false
     };
   }
 
@@ -28,7 +29,7 @@ class profile extends Component {
         const exists = snapshot.val() != null;
 
         if (exists) {
-          data = snapshots.val();
+          data = snapshot.val();
           // data = one userObject
           that.setState({
             username: data.username,
@@ -56,6 +57,15 @@ class profile extends Component {
     });
   };
 
+  logOut = () => {
+    f.auth().signOut();
+    alert("logout");
+  };
+
+  editProfile = () => {
+    alert("editProfile");
+  };
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -79,22 +89,38 @@ class profile extends Component {
                 <Text>@username: {this.state.username} </Text>
               </View>
             </View>
-            <View style={{ paddingBottom: 20, borderBottomWidth: 1 }}>
-              <TouchableOpacity style={styles.buttons}>
-                <Text style={styles.labels}>LogOut</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buttons}>
-                <Text style={styles.labels}>Edit Profile</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate("Upload");
-                }}
-                style={styles.upload}
-              >
-                <Text style={styles.uploadText}>+ Upload New Photo </Text>
-              </TouchableOpacity>
-            </View>
+
+            {this.state.editingProfile == true ? (
+              // editing is true, show page to edit profile.
+              <View style={styles.editProfileView}>
+                <Text>Edit Profile Page</Text>
+              </View>
+            ) : (
+              // if editing is false, then show buttons, else if true, show edit-page
+              /* // LogOut, Edit, UploadPhoto => 3 buttons */
+              <View style={styles.buttonsView}>
+                <TouchableOpacity
+                  style={styles.buttons}
+                  onPress={() => this.logOut()}
+                >
+                  <Text style={styles.labels}>LogOut</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.buttons}
+                  onPress={() => this.editProfile()}
+                >
+                  <Text style={styles.labels}>Edit Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate("Upload");
+                  }}
+                  style={styles.upload}
+                >
+                  <Text style={styles.uploadText}>+ Upload New Photo </Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
             <PhotoList
               isUser={true}
@@ -116,7 +142,7 @@ class profile extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#eee",
     alignItems: "center",
     justifyContent: "center"
   },
@@ -174,6 +200,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "green"
+  },
+  buttonsView: {
+    paddingBottom: 20,
+    borderBottomWidth: 1
+  },
+  editProfileView: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingBottom: 20,
+    borderBottomWidth: 1
   }
 });
 export default profile;

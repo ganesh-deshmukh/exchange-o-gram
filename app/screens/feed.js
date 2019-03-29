@@ -22,7 +22,7 @@ class feed extends Component {
     };
   }
   componentDidMount = () => {
-    console.log("feed.js componentDidMount is working");
+    // console.log("feed.js componentDidMount is working");
   };
 
   render() {
