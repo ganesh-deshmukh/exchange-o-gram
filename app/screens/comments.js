@@ -279,7 +279,11 @@ class comments extends Component {
 
         {this.state.loggedin == true ? (
           // true-> you are loggedin
-          <View style={styles.keyboardView}>
+          <KeyboardAvoidingView
+            enabled
+            behavior="padding"
+            style={styles.keyboardView}
+          >
             <Text style={{ fontWeight: "bold" }}>Post Your Comment.</Text>
 
             <View>
@@ -292,7 +296,9 @@ class comments extends Component {
                   })
                 }
                 style={styles.textInputColor}
-              />
+              >
+                {this.state.comment}
+              </TextInput>
 
               <TouchableOpacity
                 style={styles.postBtn}
@@ -301,7 +307,7 @@ class comments extends Component {
                 <Text style={{ color: "white" }}>Post</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </KeyboardAvoidingView>
         ) : (
           <View>
             <Text>You are not-Logged in, can't post your comments</Text>
