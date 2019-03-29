@@ -190,8 +190,41 @@ class comments extends Component {
   };
 
   postComment = () => {
-    console.log("posting post");
+    // console.log("posting post");
+    let comment = this.state.comment;
+    if (comment != "") {
+      // process comment
+      let imageId = this.state.photoId;
+      let userId = f.auth().currentUser.uid;
+      let commentId = this.uniqueId();
+      let dateTime = Date.now();
+      let timestamp = Math.floor(dateTime / 1000);
+
+      this.setState({
+        comment: "" // clear comment after posting,
+      });
+      let commentObj = {
+        posted: timestamp,
+        author: userId,
+        comment: comment
+      };
+
+      database.ref("/comments/" + imageId + "/" + commentId).set(commentObj);
+
+      // reload all comments after adding
+      this.reloadCommentList();
+    } else {
+      alert("Sorry empty comment can't be posted");
+    }
   };
+
+  reloadCommentList = () => {
+    this.setState({
+      comments_list: []
+    });
+    this.fetchComments(this.state.photoId);
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -246,11 +279,7 @@ class comments extends Component {
 
         {this.state.loggedin == true ? (
           // true-> you are loggedin
-          <KeyboardAvoidingView
-            behavior="padding"
-            enabled
-            style={styles.keyboardView}
-          >
+          <View style={styles.keyboardView}>
             <Text style={{ fontWeight: "bold" }}>Post Your Comment.</Text>
 
             <View>
@@ -265,11 +294,14 @@ class comments extends Component {
                 style={styles.textInputColor}
               />
 
-              <TouchableOpacity onPress={() => this.postComment()}>
-                <Text>Post</Text>
+              <TouchableOpacity
+                style={styles.postBtn}
+                onPress={() => this.postComment()}
+              >
+                <Text style={{ color: "white" }}>Post</Text>
               </TouchableOpacity>
             </View>
-          </KeyboardAvoidingView>
+          </View>
         ) : (
           <View>
             <Text>You are not-Logged in, can't post your comments</Text>
@@ -353,7 +385,7 @@ const styles = StyleSheet.create({
   },
   keyboardView: {
     borderWidth: 1,
-    borderColor: "grey",
+    borderColor: "white",
     padding: 10,
     marginBottom: 15
   },
@@ -365,6 +397,12 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: "white",
     color: "black"
+  },
+  postBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: "blue",
+    borderRadius: 5
   }
 });
 export default comments;
