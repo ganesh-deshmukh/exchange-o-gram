@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  TextInput,
   TouchableOpacity,
   FlatList,
   Image,
@@ -63,7 +64,10 @@ class profile extends Component {
   };
 
   editProfile = () => {
-    alert("editProfile");
+    this.setState({
+      editingProfile: true
+    });
+    // alert("editProfile");
   };
 
   render() {
@@ -92,8 +96,48 @@ class profile extends Component {
 
             {this.state.editingProfile == true ? (
               // editing is true, show page to edit profile.
+
               <View style={styles.editProfileView}>
-                <Text>Edit Profile Page</Text>
+                {/* View for Buttons Name and Username */}
+                <View style={styles.editUserInfoName}>
+                  <Text>Name:</Text>
+                  <TextInput
+                    style={styles.textInputArea}
+                    editable={true}
+                    placeholder={"Enter your Name"}
+                    value={this.state.name}
+                    onChangeText={text => {
+                      this.setState({ name: text });
+                    }}
+                  />
+                </View>
+                <View style={styles.editUserInfoName}>
+                  <Text>Username:</Text>
+                  <TextInput
+                    style={styles.textInputArea}
+                    editable={true}
+                    placeholder={"Enter your Username"}
+                    value={this.state.username}
+                    onChangeText={text => {
+                      this.setState({ username: text });
+                    }}
+                  />
+                </View>
+                <View style={styles.editAndCancellBtnView}>
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={() => this.setState({ editingProfile: false })}
+                  >
+                    <Text style={{ color: "white" }}>Cancel Editing</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={() => this.saveProfile()}
+                  >
+                    <Text style={{ color: "white" }}>Save Edited Profile</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             ) : (
               // if editing is false, then show buttons, else if true, show edit-page
@@ -105,12 +149,14 @@ class profile extends Component {
                 >
                   <Text style={styles.labels}>LogOut</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity
                   style={styles.buttons}
                   onPress={() => this.editProfile()}
                 >
                   <Text style={styles.labels}>Edit Profile</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity
                   onPress={() => {
                     this.props.navigation.navigate("Upload");
@@ -210,6 +256,32 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingBottom: 20,
     borderBottomWidth: 1
+  },
+  textInputArea: {
+    width: 100,
+    marginVertical: 10,
+    padding: 5,
+    borderColor: "grey",
+    borderWidth: 5
+  },
+  cancelButton: {
+    fontWeight: "bold",
+    backgroundColor: "blue",
+    padding: 10,
+    borderRadius: 3,
+    borderWidth: 3,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  editAndCancellBtnView: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+
+    // alignContent: "space-around"
+  },
+
+  editUserInfoName: {
+    alignContent: "space-between"
   }
 });
 export default profile;
