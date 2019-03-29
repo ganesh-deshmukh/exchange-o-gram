@@ -259,18 +259,27 @@ class comments extends Component {
                   overflow: "hidden",
                   marginBottom: 5,
                   justifyContent: "space-between",
-                  borderColor: "grey"
+                  borderColor: "grey",
+                  borderBottomWidth: 3
                 }}
               >
-                <View style={{ padding: 5 }}>
+                <View style={styles.timeAuthorView}>
                   <Text>time: {item.timestamp}</Text>
-                  <TouchableOpacity>
-                    <Text>{item.author}</Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("User", {
+                        userId: item.authorId
+                      })
+                    }
+                  >
+                    <Text style={{ paddingRight: 5 }}>{item.author}</Text>
                   </TouchableOpacity>
                 </View>
 
                 <View>
-                  <Text>{item.comment}</Text>
+                  <Text style={{ paddingLeft: 5, paddingBottom: 5 }}>
+                    {item.comment}
+                  </Text>
                 </View>
               </View>
             )}
@@ -409,6 +418,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: "blue",
     borderRadius: 5
+  },
+  timeAuthorView: {
+    padding: 5,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between"
   }
 });
 export default comments;
