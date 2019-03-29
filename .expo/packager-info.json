@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 4047,
-  "expoServerNgrokUrl": "https://5k-cje.anonymous.exchange-o-gram.exp.direct",
-  "packagerNgrokUrl": "https://packager.5k-cje.anonymous.exchange-o-gram.exp.direct",
-  "ngrokPid": 4113,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null
 }

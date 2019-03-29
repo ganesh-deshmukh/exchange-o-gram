@@ -70,6 +70,30 @@ class profile extends Component {
     // alert("editProfile");
   };
 
+  saveProfile = () => {
+    let name = this.state.name;
+    let username = this.state.username;
+
+    if (name != "") {
+      database
+        .ref("users")
+        .child(this.state.userId)
+        .child("name")
+        .set(name);
+    }
+    if (username != "") {
+      database
+        .ref("users")
+        .child(this.state.userId)
+        .child("username")
+        .set(username);
+    }
+
+    this.setState({
+      editProfile: false
+    });
+  };
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -211,8 +235,8 @@ const styles = StyleSheet.create({
   },
   profilePicture: {
     marginLeft: 10,
-    width: 100,
-    height: 100,
+    width: 75,
+    height: 75,
     borderRadius: 50
   },
   profileDetails: {
@@ -273,6 +297,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     fontWeight: "bold",
     backgroundColor: "blue",
+    borderRadius: 20,
     padding: 10,
     alignItems: "center",
     justifyContent: "center"
@@ -282,6 +307,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     fontWeight: "bold",
     backgroundColor: "green",
+    borderRadius: 20,
     padding: 10,
     alignItems: "center",
     justifyContent: "center"
