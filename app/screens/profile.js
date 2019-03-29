@@ -18,16 +18,35 @@ class profile extends Component {
     };
   }
 
+  fetchUserInfo = userId => {
+    var that = this;
+    database
+      .ref("users")
+      .child(userId)
+      .once("value")
+      .then(snapshot => {
+        const exists = snapshot.val() != null;
+
+        if (exists) {
+          data = snapshots.val();
+          // data = one userObject
+          that.setState({
+            username: data.username,
+            name: data.name,
+            avatar: data.avatar,
+            loggedin: true,
+            userId: userId
+          });
+        }
+      });
+  };
   componentDidMount = () => {
     // set variable that=this, for binding
     var that = this;
     f.auth().onAuthStateChanged(user => {
       if (user) {
         // Loggedin
-        that.setState({
-          loggedin: true,
-          userId: user.uid
-        });
+        that.fetchUserInfo(user.uid);
       } else {
         // Not-Loggedin
         that.setState({
@@ -50,14 +69,14 @@ class profile extends Component {
             <View style={styles.profile}>
               <Image
                 source={{
-                  uri: "https://api.adorable.io/avatars/285/test@user.i.png"
+                  uri: this.state.avatar
                 }}
                 style={styles.profilePicture}
               />
 
               <View style={styles.profileDetails}>
-                <Text>Name </Text>
-                <Text>@username </Text>
+                <Text>Name: {this.state.name} </Text>
+                <Text>@username: {this.state.username} </Text>
               </View>
             </View>
             <View style={{ paddingBottom: 20, borderBottomWidth: 1 }}>
