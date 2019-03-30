@@ -83,8 +83,29 @@ class UserAuth extends Component {
   };
 
   componentDidMount = () => {
-    // console.log("cdm");
+    if (this.props.moveScreen) {
+      this.setState({
+        moveScreen: true
+      });
+    }
   };
+  
+  showLogin = ()=>{
+    if(this.state.moveScreen == true){
+      this.props.navigation.navigate("Upload");
+      return false;
+    }
+    this.setState({authStep:1})
+  }
+  }
+  showSignUp = ()=>{
+    if(this.state.moveScreen == true){
+      this.props.navigation.navigate("Upload");
+      return false;
+    }
+    this.setState({authStep:2})
+  }
+  
 
   render() {
     return (
@@ -93,11 +114,11 @@ class UserAuth extends Component {
         <Text>{this.props.message}</Text>
         {this.state.authStep == 0 ? (
           <View style={styles.btnList}>
-            <TouchableOpacity onPress={() => this.setState({ authStep: 1 })}>
+            <TouchableOpacity onPress={() => this.showLogin()}>
               <Text style={styles.loginLabel}>Login</Text>
             </TouchableOpacity>
             <Text style={{ marginHorizontal: 10 }}> or</Text>
-            <TouchableOpacity onPress={() => this.setState({ authStep: 2 })}>
+            <TouchableOpacity onPress={() => this.showSignUp()}>
               <Text style={styles.loginLabel}>SignUp</Text>
             </TouchableOpacity>
           </View>

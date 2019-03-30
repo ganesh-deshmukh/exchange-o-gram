@@ -320,7 +320,11 @@ class comments extends Component {
           </KeyboardAvoidingView>
         ) : (
           // if user is not authenticated
-          <UserAuth message={"Please Login to Comment on Photo"} />
+          <UserAuth
+            message={"Please Login to Comment on Photo"}
+            moveScreen={true}
+            navigation={this.props.navigation}
+          />
         )}
       </View>
     );

@@ -16,7 +16,7 @@ class PhotoList extends Component {
       photo_feed: [],
       refresh: false,
       loading: true,
-      empty:false,
+      empty: false
     };
   }
 
@@ -97,7 +97,7 @@ class PhotoList extends Component {
         // now we have access to userdetails of author of each-photo
         // we can directly show all photos.
 
-        const exist s = snapshot.val() !== null;
+        const exists = snapshot.val() !== null;
         if (exists) data = snapshot.val(); // assign data=username, only if it is not empty
 
         photo_feed.push({
@@ -141,17 +141,17 @@ class PhotoList extends Component {
       .then(snapshot => {
         const exists = snapshot.val() !== null;
         if (exists) {
-        data = snapshot.val(); // assign data=snapshot, only if it is not empty
-        let photo_feed = this.state.photo_feed;
-        this.setState({empty:false})
+          data = snapshot.val(); // assign data=snapshot, only if it is not empty
+          let photo_feed = this.state.photo_feed;
+          this.setState({ empty: false });
 
-        for (let photo in data) {
-          that.addToFlatList(photo_feed, data, photo);
-        }// end of for loop
-      }  // end of if  loop
-      else{
-        this.setState({empty:true})
-      }
+          for (let photo in data) {
+            that.addToFlatList(photo_feed, data, photo);
+          } // end of for loop
+        } // end of if  loop
+        else {
+          this.setState({ empty: true });
+        }
       }) // end of then(snapshot=> function)
       .catch(e => {
         console.log(e);
@@ -167,15 +167,12 @@ class PhotoList extends Component {
     return (
       <View style={styles.container}>
         {this.state.loading === true ? (
-          <View
-            style={styles.loadingView}
-          >
-          {
-            this.state.empty == true ? (
-            <Text>No photos found by this User</Text>
-          ):(
-            <Text>Loading Screen</Text>
-          )}
+          <View style={styles.loadingView}>
+            {this.state.empty == true ? (
+              <Text>No photos found by this User</Text>
+            ) : (
+              <Text>Loading Screen</Text>
+            )}
           </View>
         ) : (
           <FlatList
@@ -279,10 +276,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  loadingView:{ 
-    flex: 1, 
-    justifyContent: "center", 
-    alignItems: "center" 
+  loadingView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
