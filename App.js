@@ -12,6 +12,11 @@ import upload from "./app/screens/upload";
 import profile from "./app/screens/profile";
 import userProfile from "./app/screens/userProfile";
 import comments from "./app/screens/comments";
+import { initFirebaseFunc } from "./app/config/config";
+
+componentWillMount = () => {
+  initFirebaseFunc();
+};
 
 // make navigation-module or tabs or drawer and pass it to AppContainer
 const TabStack = createBottomTabNavigator({
