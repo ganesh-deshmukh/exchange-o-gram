@@ -15,7 +15,8 @@ class PhotoList extends Component {
     this.state = {
       photo_feed: [],
       refresh: false,
-      loading: true
+      loading: true,
+      empty:false,
     };
   }
 
@@ -96,7 +97,7 @@ class PhotoList extends Component {
         // now we have access to userdetails of author of each-photo
         // we can directly show all photos.
 
-        const exists = snapshot.val() !== null;
+        const exist s = snapshot.val() !== null;
         if (exists) data = snapshot.val(); // assign data=username, only if it is not empty
 
         photo_feed.push({
@@ -139,13 +140,18 @@ class PhotoList extends Component {
       .once("value")
       .then(snapshot => {
         const exists = snapshot.val() !== null;
-        if (exists) data = snapshot.val(); // assign data=snapshot, only if it is not empty
-
+        if (exists) {
+        data = snapshot.val(); // assign data=snapshot, only if it is not empty
         let photo_feed = this.state.photo_feed;
+        this.setState({empty:false})
 
         for (let photo in data) {
           that.addToFlatList(photo_feed, data, photo);
-        } // end of for loop
+        }// end of for loop
+      }  // end of if  loop
+      else{
+        this.setState({empty:true})
+      }
       }) // end of then(snapshot=> function)
       .catch(e => {
         console.log(e);
@@ -162,9 +168,14 @@ class PhotoList extends Component {
       <View style={styles.container}>
         {this.state.loading === true ? (
           <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            style={styles.loadingView}
           >
+          {
+            this.state.empty == true ? (
+            <Text>No photos found by this User</Text>
+          ):(
             <Text>Loading Screen</Text>
+          )}
           </View>
         ) : (
           <FlatList
@@ -267,6 +278,11 @@ const styles = StyleSheet.create({
     padding: 5,
     flexDirection: "row",
     justifyContent: "space-between"
+  },
+  loadingView:{ 
+    flex: 1, 
+    justifyContent: "center", 
+    alignItems: "center" 
   }
 });
 
