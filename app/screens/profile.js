@@ -61,7 +61,7 @@ class profile extends Component {
 
   logOut = () => {
     f.auth().signOut();
-    alert("logout");
+    // alert("logout");
   };
 
   editProfile = () => {

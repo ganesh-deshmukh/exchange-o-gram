@@ -63,7 +63,7 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.login();
+    // this.login();
   }
   render() {
     // make sure app always returns AppContainer
