@@ -89,23 +89,22 @@ class UserAuth extends Component {
       });
     }
   };
-  
-  showLogin = ()=>{
-    if(this.state.moveScreen == true){
+
+  showLogin = () => {
+    if (this.state.moveScreen == true) {
       this.props.navigation.navigate("Upload");
       return false;
     }
-    this.setState({authStep:1})
-  }
-  }
-  showSignUp = ()=>{
-    if(this.state.moveScreen == true){
+    this.setState({ authStep: 1 });
+  };
+
+  showSignUp = () => {
+    if (this.state.moveScreen == true) {
       this.props.navigation.navigate("Upload");
       return false;
     }
-    this.setState({authStep:2})
-  }
-  
+    this.setState({ authStep: 2 });
+  };
 
   render() {
     return (
