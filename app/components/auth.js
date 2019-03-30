@@ -44,6 +44,44 @@ class UserAuth extends Component {
     }
   };
 
+  createUserObj = (userObj, email) => {
+    var uObj = {
+      name: "Enter your name",
+      username: "@username",
+      avatar: "https://www.gravatar.com/avatar",
+      email: email
+    };
+    database
+      .ref("users")
+      .child(userObj.uid)
+      .set(uObj);
+  };
+
+  signUp = async () => {
+    let email = this.state.email;
+    let password = this.state.pass;
+
+    if (email != "" && password != "") {
+      // send user details to login, using try-cache
+      try {
+        // hardcoded values,
+        // let user = await auth.signInWithEmailAndPassword(
+        //   "test@user.com",
+        //   "password"
+        // );
+        let user = await auth
+          .createUserWithEmailAndPassword(email, password)
+          .then(userObj => this.createUserObj(userObj.user, email))
+          .catch(e => alert(e));
+      } catch (err) {
+        console.log(err);
+        alert(err);
+      }
+    } else {
+      alert("Please fill both details, it can't be empty ");
+    }
+  };
+
   componentDidMount = () => {
     // console.log("cdm");
   };
@@ -103,7 +141,40 @@ class UserAuth extends Component {
               </View>
             ) : (
               // signup user
-              <Text>SignUp Page</Text>
+              <View>
+                <TouchableOpacity
+                  onPress={() => this.setState({ authStep: 0 })}
+                  style={styles.cancelBtn}
+                >
+                  <Text style={{ fontWeight: "bold" }}> &lt;- Cancel</Text>
+                </TouchableOpacity>
+
+                <Text>Email Address: </Text>
+                <TextInput
+                  editable={true}
+                  keyboardType={"email-address"}
+                  placeholder={"Your email id goes here..."}
+                  onChangeText={text => this.setState({ email: text })}
+                  value={this.state.email}
+                  style={styles.emailInputButton}
+                />
+                <Text>Password</Text>
+                <TextInput
+                  editable={true}
+                  secureTextEntry
+                  placeholder={"Your password is here"}
+                  onChangeText={input => this.setState({ pass: input })}
+                  value={this.state.pass}
+                  style={styles.emailInputButton}
+                />
+
+                <TouchableOpacity
+                  onPress={() => this.signUp()}
+                  style={styles.loginButtonWithEmailPass}
+                >
+                  <Text style={{ color: "white" }}>SignUp</Text>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
         )}
