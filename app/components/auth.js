@@ -234,6 +234,5 @@ const styles = StyleSheet.create({
     borderRadius: 15
   }
 });
-}
 
-export default userAuth;
+export default UserAuth;

@@ -11,7 +11,7 @@ import { f, auth, database, storage } from "../config/config";
 
 import PhotoList from "../components/photoList";
 
-class profile extends Component {
+class userProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {

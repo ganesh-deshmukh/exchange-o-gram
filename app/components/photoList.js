@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   FlatList
 } from "react-native";
-import { f, auth, database, storage } from "../../config/config.js";
+import { f, auth, database, storage } from "../config/config.js";
 console.disableYellowBox = true;
 
 class PhotoList extends Component {
