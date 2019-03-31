@@ -1,0 +1,221 @@
+for loop starts in photoList
+photo in data =
+ 25a-821-276-6fe-268
+photoList_88, photoObj is =
+ Object {
+  "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+  "caption": "cat",
+  "posted": 1553682794,
+  "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+}
+photo in data =
+ f12-cce-8fd-231-897
+photoList_88, photoObj is =
+ Object {
+  "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+  "caption": "GD",
+  "posted": 1553769294,
+  "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+}
+db.ref('users/photoObj.author/usrname')
+ null
+photoList_281, item  is =  Object {
+  "author": Object {
+    "25a-821-276-6fe-268": Object {
+      "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+      "caption": "cat",
+      "posted": 1553682794,
+      "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+    },
+    "f12-cce-8fd-231-897": Object {
+      "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+      "caption": "GD",
+      "posted": 1553769294,
+      "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+    },
+  },
+  "authorId": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+  "caption": "GD",
+  "id": "f12-cce-8fd-231-897",
+  "posted": "3 days ago",
+  "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+}
+photoList_281, item.authorId  is =  uhrn0DnB22X4f8BKvTMMi8Qii3I3
+photoList_281, item.author  is 
+ Object {
+  "25a-821-276-6fe-268": Object {
+    "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+    "caption": "cat",
+    "posted": 1553682794,
+    "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+  },
+  "f12-cce-8fd-231-897": Object {
+    "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+    "caption": "GD",
+    "posted": 1553769294,
+    "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+  },
+}
+db.ref('users/photoObj.author/usrname')
+ null
+photoList_281, item  is =  Object {
+  "author": Object {
+    "25a-821-276-6fe-268": Object {
+      "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+      "caption": "cat",
+      "posted": 1553682794,
+      "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+    },
+    "f12-cce-8fd-231-897": Object {
+      "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+      "caption": "GD",
+      "posted": 1553769294,
+      "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+    },
+  },
+  "authorId": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+  "caption": "GD",
+  "id": "f12-cce-8fd-231-897",
+  "posted": "3 days ago",
+  "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+}
+photoList_281, item.authorId  is =  uhrn0DnB22X4f8BKvTMMi8Qii3I3
+photoList_281, item.author  is 
+ Object {
+  "25a-821-276-6fe-268": Object {
+    "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+    "caption": "cat",
+    "posted": 1553682794,
+    "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+  },
+  "f12-cce-8fd-231-897": Object {
+    "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+    "caption": "GD",
+    "posted": 1553769294,
+    "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+  },
+}
+photoList_281, item  is =  Object {
+  "author": Object {
+    "25a-821-276-6fe-268": Object {
+      "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+      "caption": "cat",
+      "posted": 1553682794,
+      "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+    },
+    "f12-cce-8fd-231-897": Object {
+      "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+      "caption": "GD",
+      "posted": 1553769294,
+      "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+    },
+  },
+  "authorId": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+  "caption": "cat",
+  "id": "25a-821-276-6fe-268",
+  "posted": "4 days ago",
+  "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+}
+photoList_281, item.authorId  is =  uhrn0DnB22X4f8BKvTMMi8Qii3I3
+photoList_281, item.author  is 
+ Object {
+  "25a-821-276-6fe-268": Object {
+    "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+    "caption": "cat",
+    "posted": 1553682794,
+    "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+  },
+  "f12-cce-8fd-231-897": Object {
+    "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+    "caption": "GD",
+    "posted": 1553769294,
+    "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+  },
+}
+photoList_281, item  is =  Object {
+  "author": Object {
+    "25a-821-276-6fe-268": Object {
+      "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+      "caption": "cat",
+      "posted": 1553682794,
+      "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+    },
+    "f12-cce-8fd-231-897": Object {
+      "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+      "caption": "GD",
+      "posted": 1553769294,
+      "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+    },
+  },
+  "authorId": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+  "caption": "GD",
+  "id": "f12-cce-8fd-231-897",
+  "posted": "3 days ago",
+  "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+}
+photoList_281, item.authorId  is =  uhrn0DnB22X4f8BKvTMMi8Qii3I3
+photoList_281, item.author  is 
+ Object {
+  "25a-821-276-6fe-268": Object {
+    "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+    "caption": "cat",
+    "posted": 1553682794,
+    "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+  },
+  "f12-cce-8fd-231-897": Object {
+    "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+    "caption": "GD",
+    "posted": 1553769294,
+    "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+  },
+}
+photoList_281, item  is =  Object {
+  "author": Object {
+    "25a-821-276-6fe-268": Object {
+      "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+      "caption": "cat",
+      "posted": 1553682794,
+      "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+    },
+    "f12-cce-8fd-231-897": Object {
+      "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+      "caption": "GD",
+      "posted": 1553769294,
+      "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+    },
+  },
+  "authorId": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+  "caption": "cat",
+  "id": "25a-821-276-6fe-268",
+  "posted": "4 days ago",
+  "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+}
+photoList_281, item.authorId  is =  uhrn0DnB22X4f8BKvTMMi8Qii3I3
+photoList_281, item.author  is 
+ Object {
+  "25a-821-276-6fe-268": Object {
+    "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+    "caption": "cat",
+    "posted": 1553682794,
+    "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2F25a-821-276-6fe-268.jpg?alt=media&token=8251d9fb-303c-419d-b1ec-d9e2ac2a1128",
+  },
+  "f12-cce-8fd-231-897": Object {
+    "author": "uhrn0DnB22X4f8BKvTMMi8Qii3I3",
+    "caption": "GD",
+    "posted": 1553769294,
+    "url": "https://firebasestorage.googleapis.com/v0/b/exchange-o-gram-app.appspot.com/o/user%2Fuhrn0DnB22X4f8BKvTMMi8Qii3I3%2Fimg%2Ff12-cce-8fd-231-897.png?alt=media&token=463c7a53-9fa8-42af-bbfc-518dbda81bd0",
+  },
+}
+
+Unable to symbolicate stack trace: Network request failed
+* http://192.168.0.116:19001/node_modules/expo/AppEntry.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fgd%2FDesktop%2Fexchangeogram%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:83963:23 in warn
+* http://192.168.0.116:19001/node_modules/expo/AppEntry.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fgd%2FDesktop%2Fexchangeogram%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:60541:28 in warn
+* http://192.168.0.116:19001/node_modules/expo/AppEntry.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fgd%2FDesktop%2Fexchangeogram%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:22753:16 in tryCallOne
+* http://192.168.0.116:19001/node_modules/expo/AppEntry.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fgd%2FDesktop%2Fexchangeogram%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:22854:27 in <unknown>
+* http://192.168.0.116:19001/node_modules/expo/AppEntry.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fgd%2FDesktop%2Fexchangeogram%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:24065:17 in _callTimer
+* http://192.168.0.116:19001/node_modules/expo/AppEntry.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fgd%2FDesktop%2Fexchangeogram%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:24101:19 in _callImmediatesPass
+* http://192.168.0.116:19001/node_modules/expo/AppEntry.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fgd%2FDesktop%2Fexchangeogram%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:24320:33 in callImmediates
+* http://192.168.0.116:19001/node_modules/expo/AppEntry.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fgd%2FDesktop%2Fexchangeogram%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:3615:35 in __callImmediates
+* http://192.168.0.116:19001/node_modules/expo/AppEntry.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fgd%2FDesktop%2Fexchangeogram%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:3452:34 in <unknown>
+* http://192.168.0.116:19001/node_modules/expo/AppEntry.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fgd%2FDesktop%2Fexchangeogram%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:3598:15 in __guard
+* http://192.168.0.116:19001/node_modules/expo/AppEntry.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fgd%2FDesktop%2Fexchangeogram%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:3451:21 in flushedQueue
