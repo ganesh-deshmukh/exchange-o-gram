@@ -22,7 +22,7 @@ class userProfile extends Component {
   checkParams = () => {
     // check if username is passed through userProfile.js or not.
     let params = this.props.navigation.state.params;
-    // console.log(" params= ", params);
+    console.log("userProfile.js params= ", params);
     if (params) {
       if (params.userId) {
         this.setState({
@@ -56,7 +56,12 @@ class userProfile extends Component {
         });
         console.log("username in UserProfile = ", this.state.username);
       })
-      .catch(e => console.log(e));
+      .catch(e =>
+        console.log(
+          "database error in userProfile referencing users/userid/username/value",
+          e
+        )
+      );
 
     database
       .ref("users")
@@ -68,7 +73,12 @@ class userProfile extends Component {
         if (exists) data = snapshot.val();
         that.setState({ name: data });
       })
-      .catch(e => console.log(e));
+      .catch(e =>
+        console.log(
+          "database error in userProfile referencing users/userid/name/value",
+          e
+        )
+      );
 
     database
       .ref("users")
@@ -84,7 +94,12 @@ class userProfile extends Component {
           // now we have fetched data and loaded page, now make loaded=true.
         });
       })
-      .catch(e => console.log(e));
+      .catch(e =>
+        console.log(
+          "database error in userProfile referencing users/userid/avatar/value",
+          e
+        )
+      );
     // catch error if snapshot is not found through api
   };
 

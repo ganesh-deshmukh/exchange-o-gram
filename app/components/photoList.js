@@ -110,48 +110,48 @@ class PhotoList extends Component {
           author: data,
           authorId: photoObj.author
         });
-        console.log({
-          id: photo,
-          url: photoObj.url,
-          caption: photoObj.caption,
-          posted: that.timeConverter(photoObj.posted),
-          timestamp: photoObj.posted,
-          author: data,
-          authorId: photoObj.author
-        });
+        // console.log({
+        //   id: photo,
+        //   url: photoObj.url,
+        //   caption: photoObj.caption,
+        //   posted: that.timeConverter(photoObj.posted),
+        //   timestamp: photoObj.posted,
+        //   author: data,
+        //   authorId: photoObj.author
+        // });
 
-        let myData = []
-          .concat(photo_feed)
-          .sort((a, b) => a.timestamp < b.timestamp);
+        // let myData = []
+        //   .concat(photo_feed)
+        //   .sort((a, b) => a.timestamp < b.timestamp);
 
-        //Ensure unique
-        myData = myData.filter(
-          (thing, index, self) =>
-            index ===
-            self.findIndex(t => t.id === thing.id && t.url === thing.url)
-        );
+        // //Ensure unique
+        // myData = myData.filter(
+        //   (thing, index, self) =>
+        //     index ===
+        //     self.findIndex(t => t.id === thing.id && t.url === thing.url)
+        // );
 
         that.setState({
           refresh: false,
-          loading: false,
-          photo_feed: myData
+          loading: false
+          // photo_feed: myData
         });
       }) // end of then(snapshot=> function)
       .catch(e => {
-        console.log(e);
+        console.log("error in fetching photos object from db in photoList", e);
       });
   };
 
   handleLoadMore = () => {
     //Fetch new
-    console.log("load more");
+    // console.log("load more");
     startKey = this.state.startKey;
     this.runLoadMore(1, startKey);
   };
 
   runLoadMore = (perPage, startKey = "") => {
     //Fetch new photos
-    console.log("load more", perPage, startKey);
+    // console.log("load more", perPage, startKey);
     let that = this;
 
     //Fetch most recent photo, we can't rely on firebase-output
@@ -171,11 +171,11 @@ class PhotoList extends Component {
           let count = 1;
           for (let photo in data) {
             if (count == snapshot.numChildren()) {
-              console.log("new start key: " + photo);
+              // console.log("new start key: " + photo);
               that.setState({ startKey: that.state.startKey + count });
             }
 
-            console.log("add to list...");
+            // console.log("add to list...");
             that.addToFlatList(photo_feed, data, photo);
 
             count++;
@@ -184,7 +184,9 @@ class PhotoList extends Component {
           that.setState({ empty: true });
         }
       })
-      .catch(error => console.log(error));
+      .catch(error =>
+        console.log("error in getting photos orderd by 'posted'", e)
+      );
   };
 
   loadFeed = (userId = "") => {
@@ -230,7 +232,9 @@ class PhotoList extends Component {
           that.setState({ empty: true });
         }
       })
-      .catch(error => console.log(error));
+      .catch(error =>
+        console.log('error in photos in loadRef orderByChild("posted") ', error)
+      );
   };
 
   loadNew = () => {
@@ -263,12 +267,17 @@ class PhotoList extends Component {
               <View key={index} style={styles.flatlistImage}>
                 <View style={styles.postDetails}>
                   <Text>{item.posted} </Text>
-                  {/* {console.log(item.author)} */}
+                  {console.log("item.author is = ", item.author)}
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate("User", {
-                        userId: item.authorId
-                      })
+                    onPress={
+                      () => {
+                        console.log(
+                          "navigating to userScreen from photoList.js"
+                        );
+                      }
+                      // this.props.navigation.navigate("User", {
+                      //   userId: item.authorId
+                      // })
                     }
                   >
                     <Text>{item.author}</Text>

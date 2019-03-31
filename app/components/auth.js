@@ -24,12 +24,12 @@ class UserAuth extends Component {
   login = async () => {
     let email = this.state.email;
     let password = this.state.password;
-    console.log(password);
+    // console.log(password);
     if (email != "" && password != "") {
       try {
         let user = await auth.signInWithEmailAndPassword(email, password); //'test@user.com', 'password');
       } catch (err) {
-        console.log(err);
+        console.log("error in auth.js in signInWithEmail&Password");
         alert(err);
       }
     } else {
@@ -38,9 +38,7 @@ class UserAuth extends Component {
   };
 
   createUserObj = (userObj, email) => {
-    //
-
-    console.log(userObj, email, userObj.uid);
+    // console.log(userObj, email, userObj.uid);
     let uObj = {
       name: "Enter your name",
       username: "@username",
@@ -63,7 +61,7 @@ class UserAuth extends Component {
           .then(userObj => this.createUserObj(userObj.user, email))
           .catch(e => alert(e));
       } catch (err) {
-        console.log(err);
+        console.log("error in auth in creating User");
         alert(err);
       }
     } else {
