@@ -1,10 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 8337,
-  "expoServerNgrokUrl": "https://bg-j9t.anonymous.exchange-o-gram.exp.direct",
-  "packagerNgrokUrl": "https://packager.bg-j9t.anonymous.exchange-o-gram.exp.direct",
-  "ngrokPid": 8419,
-  "webpackServerPort": null
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
