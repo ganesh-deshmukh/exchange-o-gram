@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   FlatList
 } from "react-native";
-import { f, auth, database, storage } from "../config/config";
+import { f, auth, database, storage } from "../../config/config.js";
+console.disableYellowBox = true;
 
 class PhotoList extends Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class PhotoList extends Component {
       photo_feed: [],
       refresh: false,
       loading: true,
-      empty: false
+      empty: false,
+      startKey: ""
     };
   }
 
@@ -25,7 +27,7 @@ class PhotoList extends Component {
 
     // console.log("photoList receives data, userId= ", this.props.userId); //why undefined
 
-    if (isUser) {
+    if (isUser == true) {
       // Profile, authenticated
       // userId, and show private photos of this user-only
       this.loadFeed(userId);
@@ -108,10 +110,31 @@ class PhotoList extends Component {
           author: data,
           authorId: photoObj.author
         });
+        console.log({
+          id: photo,
+          url: photoObj.url,
+          caption: photoObj.caption,
+          posted: that.timeConverter(photoObj.posted),
+          timestamp: photoObj.posted,
+          author: data,
+          authorId: photoObj.author
+        });
+
+        let myData = []
+          .concat(photo_feed)
+          .sort((a, b) => a.timestamp < b.timestamp);
+
+        //Ensure unique
+        myData = myData.filter(
+          (thing, index, self) =>
+            index ===
+            self.findIndex(t => t.id === thing.id && t.url === thing.url)
+        );
 
         that.setState({
           refresh: false,
-          loading: false
+          loading: false,
+          photo_feed: myData
         });
       }) // end of then(snapshot=> function)
       .catch(e => {
@@ -119,7 +142,54 @@ class PhotoList extends Component {
       });
   };
 
+  handleLoadMore = () => {
+    //Fetch new
+    console.log("load more");
+    startKey = this.state.startKey;
+    this.runLoadMore(1, startKey);
+  };
+
+  runLoadMore = (perPage, startKey = "") => {
+    //Fetch new photos
+    console.log("load more", perPage, startKey);
+    let that = this;
+
+    //Fetch most recent photo, we can't rely on firebase-output
+    let fetchRecords = database
+      .ref("photos")
+      .orderByChild("posted")
+      .limitToLast(perPage + 1 + that.state.startKey);
+    fetchRecords
+      .once("value")
+      .then(function(snapshot) {
+        const exists = snapshot.val() !== null;
+        if (exists) {
+          data = snapshot.val();
+          let photo_feed = that.state.photo_feed;
+
+          that.setState({ empty: false });
+          let count = 1;
+          for (let photo in data) {
+            if (count == snapshot.numChildren()) {
+              console.log("new start key: " + photo);
+              that.setState({ startKey: that.state.startKey + count });
+            }
+
+            console.log("add to list...");
+            that.addToFlatList(photo_feed, data, photo);
+
+            count++;
+          }
+        } else {
+          that.setState({ empty: true });
+        }
+      })
+      .catch(error => console.log(error));
+  };
+
   loadFeed = (userId = "") => {
+    let perPage = 1;
+
     this.setState({
       refresh: true,
       photo_feed: []
@@ -137,36 +207,41 @@ class PhotoList extends Component {
 
     loadRef
       .orderByChild("posted")
+      .limitToLast(perPage + 1)
       .once("value")
-      .then(snapshot => {
+      .then(function(snapshot) {
         const exists = snapshot.val() !== null;
         if (exists) {
-          data = snapshot.val(); // assign data=snapshot, only if it is not empty
-          let photo_feed = this.state.photo_feed;
-          this.setState({ empty: false });
+          data = snapshot.val();
+          let photo_feed = that.state.photo_feed;
 
+          that.setState({ empty: false });
+          let count = 1;
           for (let photo in data) {
+            if (count == snapshot.numChildren()) {
+              that.setState({ startKey: count });
+            }
+
             that.addToFlatList(photo_feed, data, photo);
-          } // end of for loop
-        } // end of if  loop
-        else {
-          this.setState({ empty: true });
+
+            count++;
+          }
+        } else {
+          that.setState({ empty: true });
         }
-      }) // end of then(snapshot=> function)
-      .catch(e => {
-        console.log(e);
-      });
+      })
+      .catch(error => console.log(error));
   };
 
   loadNew = () => {
-    // console.log("LoadNew() is called");
+    //Load Feed
     this.loadFeed();
   };
 
   render() {
     return (
       <View style={styles.container}>
-        {this.state.loading === true ? (
+        {this.state.loading == true ? (
           <View style={styles.loadingView}>
             {this.state.empty == true ? (
               <Text>No photos found by this User</Text>
@@ -188,41 +263,31 @@ class PhotoList extends Component {
               <View key={index} style={styles.flatlistImage}>
                 <View style={styles.postDetails}>
                   <Text>{item.posted} </Text>
-
                   {/* {console.log(item.author)} */}
-
                   <TouchableOpacity
-                    onPress={() => {
-                      // console.log("username clicked");
-                      // console.log("item.authorId passed =", item.authorId);
+                    onPress={() =>
                       this.props.navigation.navigate("User", {
                         userId: item.authorId
-                        // we will go to userProfile-page,
-                        // because navigate->Users={screen:userProfile} in app.js in MainStack
-                      });
-                    }}
+                      })
+                    }
                   >
-                    <Text>@{item.author}</Text>
+                    <Text>{item.author}</Text>
                   </TouchableOpacity>
                 </View>
                 <View>
                   <Image
-                    source={{
-                      uri: item.url
-                    }}
+                    source={{ uri: item.url }}
                     style={styles.profilephoto}
                   />
                 </View>
                 <View style={{ padding: 5 }}>
-                  <Text style={{}}> #{item.caption}</Text>
+                  <Text>{item.caption}</Text>
                   <TouchableOpacity
-                    onPress={() => {
+                    onPress={() =>
                       this.props.navigation.navigate("Comments", {
                         photoId: item.id
-                        // in photo_feed, item.id= photo-id.
-                        // pass photoid to show respective comments of that photo.
-                      });
-                    }}
+                      })
+                    }
                   >
                     <Text
                       style={{
@@ -231,12 +296,14 @@ class PhotoList extends Component {
                         color: "blue"
                       }}
                     >
-                      [Show all Comments]
+                      [Show all Comments ]
                     </Text>
                   </TouchableOpacity>
                 </View>
               </View>
             )}
+            onEndReached={this.handleLoadMore}
+            onEndThreshold={0}
           />
           // {/* End of FlatList-Component */}
         )}
@@ -264,15 +331,16 @@ const styles = StyleSheet.create({
     height: 280
   },
   flatlistImage: {
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderColor: "grey",
     width: "100%",
     overflow: "hidden",
-    marginBottom: 5
+    marginBottom: 5,
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderColor: "grey"
   },
   postDetails: {
     padding: 5,
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between"
   },
@@ -282,5 +350,4 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 });
-
 export default PhotoList;

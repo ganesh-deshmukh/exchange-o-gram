@@ -46,26 +46,12 @@ const MainStack = createStackNavigator(
   // apply features to your app-screen
   {
     initialRouteName: "Home",
-    mode: "modal", // card and modal are same in android
+    mode: "modal", // card and modal are same in android, this mode  is only for IOS
     headerMode: "none"
   }
 );
 
 class App extends React.Component {
-  login = async () => {
-    // force user to login, using try-cache
-    try {
-      // no errors,
-      let user = await auth.signInWithEmailAndPassword(
-        "test@user.com",
-        "password"
-      );
-      // alert("user successfully loggedin");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   constructor(props) {
     super(props);
     // this.login();

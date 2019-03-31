@@ -7,11 +7,11 @@ import {
   Text,
   StyleSheet
 } from "react-native";
-
 import { f, auth, database, storage } from "../config/config";
+
 import PhotoList from "../components/photoList";
 
-class userProfile extends Component {
+class profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,13 +23,13 @@ class userProfile extends Component {
     // check if username is passed through userProfile.js or not.
     let params = this.props.navigation.state.params;
     // console.log(" params= ", params);
-
     if (params) {
       if (params.userId) {
         this.setState({
           userId: params.userId
         });
         // if params are reveived as userId, then fetch user's profile using userId
+
         this.fetchUserInfo(params.userId);
         // console.log("params.userId ", params.userId);
       }
@@ -40,14 +40,16 @@ class userProfile extends Component {
   };
 
   fetchUserInfo = userId => {
-    var that = this;
+    //
+    let that = this;
+
     database
       .ref("users")
       .child(userId)
       .child("username")
       .once("value")
       .then(snapshot => {
-        const exists = snapshot.val() != null;
+        const exists = snapshot.val() !== null;
         if (exists) data = snapshot.val();
         that.setState({
           username: data
@@ -62,11 +64,9 @@ class userProfile extends Component {
       .child("name")
       .once("value")
       .then(snapshot => {
-        const exists = snapshot.val() != null;
+        const exists = snapshot.val() !== null;
         if (exists) data = snapshot.val();
-        that.setState({
-          name: data
-        });
+        that.setState({ name: data });
       })
       .catch(e => console.log(e));
 
@@ -76,7 +76,7 @@ class userProfile extends Component {
       .child("avatar")
       .once("value")
       .then(snapshot => {
-        const exists = snapshot.val() != null;
+        const exists = snapshot.val() !== null;
         if (exists) data = snapshot.val();
         that.setState({
           avatar: data,
@@ -89,6 +89,7 @@ class userProfile extends Component {
   };
 
   componentDidMount = () => {
+    this.checkParams();
     this.checkParams(); // get userId of user through profile.js navigation
   };
 
@@ -99,11 +100,13 @@ class userProfile extends Component {
       <View style={{ flex: 1 }}>
         {this.state.loaded == false ? (
           // means page hasn't loaded yet.
+
           <View>
             <Text>Loading...</Text>
           </View>
         ) : (
           // else, pageLoaded=true, then display user's-profile
+
           <View style={{ flex: 1 }}>
             <View style={styles.header}>
               <TouchableOpacity
@@ -138,6 +141,7 @@ class userProfile extends Component {
               "userId sent through userProfile =",
               this.state.userId
             )}
+
             <PhotoList
               isUser={true}
               userId={this.state.userId}
@@ -149,6 +153,7 @@ class userProfile extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

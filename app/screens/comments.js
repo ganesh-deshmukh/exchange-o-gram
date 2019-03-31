@@ -6,9 +6,11 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList
+  FlatList,
+  Image
 } from "react-native";
 import { f, auth, database, storage } from "../config/config";
+
 import UserAuth from "../components/auth";
 
 class comments extends Component {
@@ -26,24 +28,24 @@ class comments extends Component {
     // console.log("params =", params);
     // console.log(" params= ", params);
 
-    if (params) {
-      if (params.photoId) {
-        // console.log("params.photoId in comments.js", params.photoId);
-        this.setState({
-          photoId: params.photoId
-        });
-        // if params are reveived as userId, then fetch user's profile using userId
-        this.fetchComments(params.photoId);
-        // console.log("params.userId ", params.userId);
-      }
+    if (params.photoId) {
+      // console.log("params.photoId in comments.js", params.photoId);
+
+      this.setState({
+        photoId: params.photoId
+      });
+      // if params are reveived as userId, then fetch user's profile using userId
+
+      this.fetchComments(params.photoId);
+      // console.log("params.userId ", params.userId);
     }
   };
 
   addCommentToList = (comments_list, data, comment) => {
     // console.log("comments_list, data, comment", comments_list, data, comment);
 
-    var that = this;
-    var commentObj = data[comment];
+    let that = this;
+    let commentObj = data[comment];
     database
       .ref("users")
       .child(commentObj.author)
@@ -52,16 +54,16 @@ class comments extends Component {
       .then(snapshot => {
         // console.log("snapshot is username \n ", snapshot);
         // here, snapshot = username
-        const exists = snapshot.val() != null;
+        const exists = snapshot.val() !== null;
         if (exists) data = snapshot.val();
+
         comments_list.push({
           id: comment,
           comment: commentObj.comment,
-          timestamp: that.timeConverter(commentObj.posted),
+          posted: that.timeConverter(commentObj.posted),
           author: data,
           authorId: commentObj.author
         });
-
         // console.log("addCommentToList, comment is commentObj.comment", comment);
 
         that.setState({
@@ -76,25 +78,26 @@ class comments extends Component {
 
   fetchComments = photoId => {
     let that = this;
+
     database
       .ref("comments")
       .child(photoId)
       .orderByChild("posted")
       .once("value")
       .then(snapshot => {
-        const exists = snapshot.val() != null;
+        const exists = snapshot.val() !== null;
         if (exists) {
           // console.log("snapshot = comment-object", snapshot.val());
           // add comments to flatList
           data = snapshot.val();
-          var comments_list = that.state.comments_list;
+          let comments_list = that.state.comments_list;
 
-          for (var comment in data) {
+          for (let comment in data) {
             that.addCommentToList(comments_list, data, comment);
           }
         } else {
           // no any comment found
-          this.setState({
+          that.setState({
             comments_list: []
           });
         }
@@ -105,9 +108,9 @@ class comments extends Component {
   }; // fetching comments.f
 
   s4 = () => {
-    return Math.floor((1 + Math.random()) * 0x1000)
+    return Math.floor((1 + Math.random()) * 0x10000)
       .toString(16)
-      .substring(1); // substring return all chars except char at index=0;
+      .substring(1);
   };
   uniqueId = () => {
     // create uniqueId for image as Alphabetical
@@ -131,6 +134,7 @@ class comments extends Component {
   };
 
   // function to convert timestamp to readable time
+
   timeConverter = timestamp => {
     let t = new Date(timestamp * 1000);
     let seconds = Math.floor((new Date() - t) / 1000);
@@ -141,7 +145,6 @@ class comments extends Component {
     if (interval > 1) {
       return interval + " year" + this.pluralCheck(interval);
     }
-
     // for months
     interval = Math.floor(seconds / 2592000);
     if (interval > 1) {
@@ -161,7 +164,6 @@ class comments extends Component {
     if (interval > 1) {
       return interval + " minute" + this.pluralCheck(interval);
     }
-
     // for seconds
     return Math.floor(seconds) + " second" + this.pluralCheck(seconds);
   };
@@ -169,11 +171,11 @@ class comments extends Component {
 
   componentDidMount = () => {
     // set variable that=this, for binding
-    var that = this;
+
+    let that = this;
     f.auth().onAuthStateChanged(user => {
       if (user) {
         // console.log("User Loggedin in comments.js");
-
         // Loggedin
         that.setState({
           loggedin: true
@@ -192,6 +194,7 @@ class comments extends Component {
 
   postComment = () => {
     // console.log("posting post");
+
     let comment = this.state.comment;
     if (comment != "") {
       // process comment
@@ -204,6 +207,7 @@ class comments extends Component {
       this.setState({
         comment: "" // clear comment after posting,
       });
+
       let commentObj = {
         posted: timestamp,
         author: userId,
@@ -213,6 +217,7 @@ class comments extends Component {
       database.ref("/comments/" + imageId + "/" + commentId).set(commentObj);
 
       // reload all comments after adding
+
       this.reloadCommentList();
     } else {
       alert("Sorry empty comment can't be posted");
@@ -236,12 +241,12 @@ class comments extends Component {
           >
             <Text style={styles.goBackLabel}> &lt;- Go Back</Text>
           </TouchableOpacity>
-          <Text> Comments Header </Text>
-          <Text style={{ width: 100 }}> </Text>
+          <Text>Comments </Text>
+          <Text style={{ width: 100 }} />
         </View>
         {/* {console.log("this.state.comments_list =", this.state.comments_list)} */}
         {this.state.comments_list.length == 0 ? (
-          // no comments {console.log("No comments");}
+          //no comments show empty state
           <Text style={{ backgroundColor: "#eee" }}>
             No Comments found in DB.
           </Text>
@@ -250,22 +255,19 @@ class comments extends Component {
           <FlatList
             refreshing={this.state.refresh}
             data={this.state.comments_list}
-            keyExtractor={(item, index) => item.id}
+            keyExtractor={(item, index) => index.toString()}
             style={{ flex: 1, backgroundColor: "#eee" }}
             renderItem={({ item, index }) => (
-              <View
-                key={item.id}
-                style={{
-                  width: "100%",
-                  overflow: "hidden",
-                  marginBottom: 5,
-                  justifyContent: "space-between",
-                  borderColor: "grey",
-                  borderBottomWidth: 3
-                }}
-              >
-                <View style={styles.timeAuthorView}>
-                  <Text>time: {item.timestamp}</Text>
+              <View key={index} style={styles.flatListViewItems}>
+                <View
+                  style={{
+                    padding: 5,
+                    width: "100%",
+                    flexDirection: "row",
+                    justifyContent: "space-between"
+                  }}
+                >
+                  <Text>time :{item.posted}</Text>
                   <TouchableOpacity
                     onPress={() =>
                       this.props.navigation.navigate("User", {
@@ -276,39 +278,37 @@ class comments extends Component {
                     <Text style={{ paddingRight: 5 }}>{item.author}</Text>
                   </TouchableOpacity>
                 </View>
-
-                <View>
-                  <Text style={{ paddingLeft: 5, paddingBottom: 5 }}>
-                    {item.comment}
-                  </Text>
+                <View style={{ padding: 5 }}>
+                  <Text>{item.comment}</Text>
                 </View>
               </View>
             )}
           />
         )}
-
         {this.state.loggedin == true ? (
-          // true-> you are loggedin
+          //are logged in
           <KeyboardAvoidingView
-            enabled
             behavior="padding"
-            style={styles.keyboardView}
+            enabled
+            style={status.keyboardView}
           >
             <Text style={{ fontWeight: "bold" }}>Post Your Comment.</Text>
-
             <View>
               <TextInput
                 editable={true}
-                placeholder={"Enter your Comment."}
-                onChangeText={text =>
-                  this.setState({
-                    comment: text
-                  })
-                }
-                style={styles.textInputColor}
-              >
-                {this.state.comment}
-              </TextInput>
+                placeholder={"enter your comment here.."}
+                onChangeText={text => this.setState({ comment: text })}
+                value={this.state.comment}
+                style={{
+                  marginVertical: 10,
+                  height: 50,
+                  padding: 5,
+                  borderColor: "grey",
+                  borderRadius: 3,
+                  backgroundColor: "white",
+                  color: "black"
+                }}
+              />
 
               <TouchableOpacity
                 style={styles.postBtn}
@@ -320,6 +320,7 @@ class comments extends Component {
           </KeyboardAvoidingView>
         ) : (
           // if user is not authenticated
+
           <UserAuth
             message={"Please Login to Comment on Photo"}
             moveScreen={true}
@@ -346,7 +347,8 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     backgroundColor: "white",
     borderColor: "lightgrey",
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
+    justifyContent: "center",
     justifyContent: "space-between",
     alignItems: "center"
   },
@@ -397,13 +399,13 @@ const styles = StyleSheet.create({
     backgroundColor: "green"
   },
   goBackLabel: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: "bold",
-    paddingLeft: 5
+    paddingLeft: 10
   },
   keyboardView: {
-    borderWidth: 1,
-    borderColor: "white",
+    borderTopWidth: 1,
+    borderTopColor: "grey",
     padding: 10,
     marginBottom: 15
   },
@@ -427,6 +429,14 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between"
+  },
+  flatListViewItems: {
+    width: "100%",
+    overflow: "hidden",
+    marginBottom: 5,
+    justifyContent: "space-between",
+    borderColor: "grey",
+    borderBottomWidth: 3
   }
 });
 export default comments;

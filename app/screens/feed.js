@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import {
   TouchableOpacity,
-  View,
-  Text,
+  FlatList,
   StyleSheet,
-  Image,
-  FlatList
+  Text,
+  View,
+  Image
 } from "react-native";
-import { f, auth, database, storage } from "../config/config";
+import { f, auth, database, storage } from "../config/config.js";
+
 import PhotoList from "../components/photoList";
 
 console.disableYellowBox = true;
-
 class feed extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +21,7 @@ class feed extends Component {
       loading: true
     };
   }
+
   componentDidMount = () => {
     // console.log("feed.js componentDidMount is working");
   };
@@ -32,11 +33,7 @@ class feed extends Component {
           <Text> Feed </Text>
         </View>
 
-        <PhotoList
-          isUser={true}
-          userId={this.state.userId}
-          navigation={this.props.navigation}
-        />
+        <PhotoList isUser={false} navigation={this.props.navigation} />
       </View>
     );
   }

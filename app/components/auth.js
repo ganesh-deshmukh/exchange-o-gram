@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import {
   TouchableOpacity,
   TextInput,
@@ -15,26 +16,18 @@ class UserAuth extends Component {
     this.state = {
       authStep: 0,
       email: "",
-      pass: "",
+      password: "",
       moveScreen: false
     };
   }
 
   login = async () => {
     let email = this.state.email;
-    let password = this.state.pass;
+    let password = this.state.password;
     console.log(password);
-
     if (email != "" && password != "") {
-      // send user details to login, using try-cache
       try {
-        // hardcoded values,
-        // let user = await auth.signInWithEmailAndPassword(
-        //   "test@user.com",
-        //   "password"
-        // );
-        let user = await auth.signInWithEmailAndPassword(email, password);
-        // alert("user successfully loggedin");
+        let user = await auth.signInWithEmailAndPassword(email, password); //'test@user.com', 'password');
       } catch (err) {
         console.log(err);
         alert(err);
@@ -45,7 +38,10 @@ class UserAuth extends Component {
   };
 
   createUserObj = (userObj, email) => {
-    var uObj = {
+    //
+
+    console.log(userObj, email, userObj.uid);
+    let uObj = {
       name: "Enter your name",
       username: "@username",
       avatar: "https://www.gravatar.com/avatar",
@@ -59,18 +55,11 @@ class UserAuth extends Component {
 
   signUp = async () => {
     let email = this.state.email;
-    let password = this.state.pass;
-
+    let password = this.state.password;
     if (email != "" && password != "") {
-      // send user details to login, using try-cache
       try {
-        // hardcoded values,
-        // let user = await auth.signInWithEmailAndPassword(
-        //   "test@user.com",
-        //   "password"
-        // );
         let user = await auth
-          .createUserWithEmailAndPassword(email, password)
+          .createUserWithEmailAndPassword(email, pass)
           .then(userObj => this.createUserObj(userObj.user, email))
           .catch(e => alert(e));
       } catch (err) {
@@ -83,7 +72,7 @@ class UserAuth extends Component {
   };
 
   componentDidMount = () => {
-    if (this.props.moveScreen) {
+    if (this.props.moveScreen == true) {
       this.setState({
         moveScreen: true
       });
@@ -245,5 +234,6 @@ const styles = StyleSheet.create({
     borderRadius: 15
   }
 });
+}
 
-export default UserAuth;
+export default userAuth;

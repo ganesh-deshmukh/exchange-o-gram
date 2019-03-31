@@ -8,6 +8,7 @@ import {
   Text,
   StyleSheet
 } from "react-native";
+
 import PhotoList from "../components/photoList";
 import UserAuth from "../components/auth";
 import { f, auth, database, storage } from "../config/config";
@@ -16,36 +17,33 @@ class profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedin: false,
-      editProfile: false
+      loggedin: false
     };
   }
 
   fetchUserInfo = userId => {
-    var that = this;
+    let that = this;
     database
       .ref("users")
       .child(userId)
       .once("value")
       .then(snapshot => {
-        const exists = snapshot.val() != null;
-
-        if (exists) {
-          data = snapshot.val();
-          // data = one userObject
-          that.setState({
-            username: data.username,
-            name: data.name,
-            avatar: data.avatar,
-            loggedin: true,
-            userId: userId
-          });
-        }
+        const exists = snapshot.val() !== null;
+        if (exists) data = snapshot.val();
+        // data = one userObject
+        that.setState({
+          username: data.username,
+          name: data.name,
+          avatar: data.avatar,
+          loggedin: true,
+          userId: userId
+        });
       });
   };
+
   componentDidMount = () => {
-    // set variable that=this, for binding
-    var that = this;
+    // set letiable that=this, for binding
+    let that = this;
     f.auth().onAuthStateChanged(user => {
       if (user) {
         // Loggedin
@@ -61,28 +59,25 @@ class profile extends Component {
 
   logOut = () => {
     f.auth().signOut();
-    // alert("logout");
+    alert("Logged Out");
   };
-
   editProfile = () => {
     this.setState({
       editingProfile: true
     });
-    // alert("editProfile");
   };
-
   saveProfile = () => {
     let name = this.state.name;
     let username = this.state.username;
 
-    if (name != "") {
+    if (name !== "") {
       database
         .ref("users")
         .child(this.state.userId)
         .child("name")
         .set(name);
     }
-    if (username != "") {
+    if (username !== "") {
       database
         .ref("users")
         .child(this.state.userId)
@@ -91,7 +86,7 @@ class profile extends Component {
     }
 
     this.setState({
-      editProfile: false
+      editingProfile: false
     });
   };
 
@@ -104,7 +99,6 @@ class profile extends Component {
             <View style={styles.header}>
               <Text> Profile </Text>
             </View>
-
             <View style={styles.profile}>
               <Image
                 source={{
@@ -112,13 +106,11 @@ class profile extends Component {
                 }}
                 style={styles.profilePicture}
               />
-
               <View style={styles.profileDetails}>
-                <Text>Name: {this.state.name} </Text>
+                <Text>Name: {this.state.name}</Text>
                 <Text>Username: {this.state.username}</Text>
               </View>
             </View>
-
             {this.state.editingProfile == true ? (
               // editing is true, show page to edit profile.
 
@@ -183,11 +175,8 @@ class profile extends Component {
                 >
                   <Text style={styles.labels}>Edit Profile</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.navigate("Upload");
-                  }}
+                  onPress={() => this.props.navigation.navigate("Upload")}
                   style={styles.upload}
                 >
                   <Text style={styles.uploadText}>+ Upload New Photo </Text>
@@ -209,6 +198,7 @@ class profile extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -221,7 +211,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     backgroundColor: "white",
     borderColor: "lightgrey",
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     justifyContent: "center",
     alignItems: "center"
   },
