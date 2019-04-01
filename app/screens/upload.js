@@ -223,6 +223,10 @@ class upload extends Component {
     // console.log("db.ref(/usrs/userId/photos/imageID/", photoObj);
 
     database.ref("/users/" + userId + "/photos/" + imageId).set(photoObj);
+
+    // photo was not uploaded automatically to photos collection, on adding it to user's collection
+    // then, manually adding that entry in photo collection after adding to users/userId/photosColln
+    database.ref("/photos/" + imageId).set(photoObj);
     //  for debugging to see why image is not uploaded to database
     console.log("upload_226, userId =", userId);
     console.log("upload_226, imageId =", imageId);
