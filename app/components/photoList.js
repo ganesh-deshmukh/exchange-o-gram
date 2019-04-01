@@ -170,7 +170,7 @@ class PhotoList extends Component {
     fetchRecords
       .once("value")
       .then(function(snapshot) {
-        console.log("db.ref('photos'/posted/ids')m", snapshot);
+        console.log("db.ref('photos'/posted/ids')", snapshot);
         const exists = snapshot.val() !== null;
         if (exists) {
           data = snapshot.val();
