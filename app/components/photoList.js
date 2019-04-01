@@ -85,7 +85,7 @@ class PhotoList extends Component {
     let that = this;
 
     let photoObj = data[photo];
-    console.log("photoList_88, photoObj is =\n", photoObj);
+    // console.log("photoList_88, photoObj is =\n", photoObj);
 
     // for each photo(photoObj) in data(snapshot-value),
     // get details of ea  ch user then push details to photo-feed-array
@@ -95,7 +95,7 @@ class PhotoList extends Component {
       .child("username") // now taking data's username
       .once("value")
       .then(snapshot => {
-        console.log("db.ref('users/photoObj.author/username')\n", snapshot);
+        // console.log("db.ref('users/photoObj.author/username')\n", snapshot);
 
         // here snapshot is username, don't confuse as snapshot=whole-data
         // console.log("snapshot value is username =", snapshot);
@@ -170,7 +170,7 @@ class PhotoList extends Component {
     fetchRecords
       .once("value")
       .then(function(snapshot) {
-        console.log("db.ref('photos'/posted/ids')", snapshot);
+        // console.log("db.ref('photos'/posted/ids')", snapshot);
         const exists = snapshot.val() !== null;
         if (exists) {
           data = snapshot.val();
@@ -221,10 +221,10 @@ class PhotoList extends Component {
       .limitToLast(perPage + 1)
       .once("value")
       .then(function(snapshot) {
-        console.log(
-          "ref('users/userId/photos') orderByChild-posted\n",
-          snapshot
-        );
+        // console.log(
+        //   "ref('users/userId/photos') orderByChild-posted\n",
+        //   snapshot
+        // );
 
         const exists = snapshot.val() !== null;
         if (exists) {
@@ -235,7 +235,7 @@ class PhotoList extends Component {
           let count = 1;
           console.log("for loop starts in photoList");
           for (let photo in data) {
-            console.log("photo in data =\n", photo);
+            // console.log("photo in data =\n", photo);
 
             if (count == snapshot.numChildren()) {
               that.setState({ startKey: count });
@@ -285,15 +285,15 @@ class PhotoList extends Component {
               <View key={index} style={styles.flatlistImage}>
                 <View style={styles.postDetails}>
                   <Text>{item.posted} </Text>
-                  {console.log("photoList_281, item  is = ", item)}
-                  {console.log(
+                  {/* {console.log("photoList_281, item  is = ", item)} */}
+                  {/* {console.log(
                     "photoList_281, item.authorId  is = ",
                     item.authorId
-                  )}
-                  {console.log(
+                  )} */}
+                  {/* {console.log(
                     "photoList_281, item.author  is \n",
                     item.author
-                  )}
+                  )} */}
 
                   <TouchableOpacity
                     onPress={() =>

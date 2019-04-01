@@ -57,7 +57,7 @@ class UserAuth extends Component {
     if (email != "" && password != "") {
       try {
         let user = await auth
-          .createUserWithEmailAndPassword(email, pass)
+          .createUserWithEmailAndPassword(email, password)
           .then(userObj => this.createUserObj(userObj.user, email))
           .catch(e => alert(e));
       } catch (err) {
@@ -134,8 +134,8 @@ class UserAuth extends Component {
                   editable={true}
                   secureTextEntry
                   placeholder={"Your password is here"}
-                  onChangeText={input => this.setState({ pass: input })}
-                  value={this.state.pass}
+                  onChangeText={input => this.setState({ password: input })}
+                  value={this.state.password}
                   style={styles.emailInputButton}
                 />
 
@@ -170,8 +170,8 @@ class UserAuth extends Component {
                   editable={true}
                   secureTextEntry
                   placeholder={"Your password is here"}
-                  onChangeText={input => this.setState({ pass: input })}
-                  value={this.state.pass}
+                  onChangeText={input => this.setState({ password: input })}
+                  value={this.state.password}
                   style={styles.emailInputButton}
                 />
 
