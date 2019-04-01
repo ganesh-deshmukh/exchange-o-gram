@@ -290,7 +290,7 @@ class comments extends Component {
           <KeyboardAvoidingView
             behavior="padding"
             enabled
-            style={status.keyboardView}
+            style={styles.keyboardView}
           >
             <Text style={{ fontWeight: "bold" }}>Post Your Comment.</Text>
             <View>

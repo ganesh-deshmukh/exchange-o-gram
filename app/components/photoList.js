@@ -128,21 +128,21 @@ class PhotoList extends Component {
         //   authorId: photoObj.author
         // });
 
-        let myData = []
-          .concat(photo_feed)
-          .sort((a, b) => a.timestamp < b.timestamp);
+        // let myData = []
+        //   .concat(photo_feed)
+        //   .sort((a, b) => a.timestamp < b.timestamp);
 
-        //Ensure unique
-        myData = myData.filter(
-          (thing, index, self) =>
-            index ===
-            self.findIndex(t => t.id === thing.id && t.url === thing.url)
-        );
+        // //Ensure unique
+        // myData = myData.filter(
+        //   (thing, index, self) =>
+        //     index ===
+        //     self.findIndex(t => t.id === thing.id && t.url === thing.url)
+        // );
 
         that.setState({
           refresh: false,
-          loading: false,
-          photo_feed: myData
+          loading: false
+          // photo_feed: myData
         });
       }) // end of then(snapshot=> function)
       .catch(e => {
