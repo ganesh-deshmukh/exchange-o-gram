@@ -69,7 +69,7 @@ class upload extends Component {
       quality: 1
     });
 
-    console.log("imshr picked is = result = ", result);
+    console.log("image picked is = result = ", result);
 
     if (!result.cancelled) {
       console.log("upload image");
@@ -220,7 +220,13 @@ class upload extends Component {
     // first to add photo to main feed of photos    database.ref("/photos/" + imageId).set(photoObj);
 
     // add photosobj to user-json as well.
+    // console.log("db.ref(/usrs/userId/photos/imageID/", photoObj);
+
     database.ref("/users/" + userId + "/photos/" + imageId).set(photoObj);
+    //  for debugging to see why image is not uploaded to database
+    console.log("upload_226, userId =", userId);
+    console.log("upload_226, imageId =", imageId);
+    console.log("upload_226, photoObj is \n", photoObj);
 
     alert("Image Uploaded Successfully.");
     // after uploading photo, reset photo-attribute/ states
