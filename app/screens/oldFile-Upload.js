@@ -8,9 +8,11 @@ import {
   Text,
   StyleSheet
 } from "react-native";
-import { f, auth, database, storage } from "../config/config.js";
-import UserAuth from "../components/auth.js";
+import { f, auth, database, storage } from "../config/config";
+import UserAuth from "../components/auth";
+
 import { Permissions, ImagePicker } from "expo";
+console.disableYellowBox = true;
 
 class upload extends Component {
   constructor(props) {
@@ -40,13 +42,12 @@ class upload extends Component {
   };
 
   s4 = () => {
-    return Math.floor((1 + Math.random()) * 0x10000)
+    return Math.floor((1 + Math.random()) * 0x1000)
       .toString(16)
       .substring(1); // substring return all chars except char at index=0;
   };
   uniqueId = () => {
     // create uniqueId for image as Alphabetical
-
     return (
       this.s4() +
       "-" +
@@ -65,22 +66,23 @@ class upload extends Component {
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: "Images",
-      allowsEditing: true,
-      quality: 1
+      allowsEditing: true, // square image
+      quality: 1 // 1 means 100%
     });
+    // console.log("result = ", result);
 
-    console.log("imshr picked is = result = ", result);
-
+    // if it's not cancelled, means chosen photo
+    // process image and upload to firebase database.
     if (!result.cancelled) {
-      console.log("upload image");
+      console.log("fetched Image from LocalStorage, but not posted yet.");
       this.setState({
         imageSelected: true,
         imageId: this.uniqueId(),
-        uri: result.uri
+        uri: result.uri // uri to show preview of img
       });
-      //this.uploadImage(result.uri);
+      // this.uploadImage(result.uri);
     } else {
-      console.log("cancel");
+      console.log("Image selection is cancelled");
       this.setState({
         imageSelected: false
       });
@@ -102,7 +104,6 @@ class upload extends Component {
 
   // this is main function to upload upload img
   uploadImage = async uri => {
-    //
     let that = this;
     let userid = f.auth().currentUser.uid;
     let imageId = this.state.imageId; // imgId = uniqueIdGenerated()
@@ -110,50 +111,29 @@ class upload extends Component {
     // check file extension ofo uploaded img
     let re = /(?:\.([^.]+))?$/; // filename, regular-expression
     let ext = re.exec(uri)[1]; // extension
+
     this.setState({
       currentFileType: ext,
       uploading: true
     });
 
-    /*const response = await fetch(uri);
-    const blob = await response.blob();*/
-    let FilePath = imageId + "." + that.state.currentFileType;
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function(e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
 
-    const oReq = new XMLHttpRequest();
-    oReq.open("GET", uri, true);
-    oReq.responseType = "blob";
-    oReq.onload = () => {
-      const blob = oReq.response;
-      //Call function to complete upload with the new blob to handle the uploadTask.
-      this.completeUploadBlob(blob, FilePath);
-    };
-    oReq.send();
-
-    /*let uploadTask = storage.ref('user/'+userid+'/img').child(FilePath).put(blob);
-
-    uploadTask.on('state_changed', function(snapshot){
-      let progress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0);
-      console.log('Upload is '+progress+'% complete');
-      that.setState({
-        progress:progress,
-      });
-    }, function(error) {
-      console.log('error with upload - '+error);
-    }, function(){
-      //complete
-      that.setState({progress:100});
-      uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
-        console.log(downloadURL);
-        that.processUpload(downloadURL);
-      });
-
-    });*/
-  };
-
-  completeUploadBlob = (blob, FilePath) => {
-    let that = this;
-    let userid = f.auth().currentUser.uid;
-    let imageId = this.state.imageId;
+    let FilePath = imageId + "." + that.state.currentFileType; // imageId.ext
 
     let uploadTask = storage
       .ref("user/" + userid + "/img")
@@ -166,24 +146,26 @@ class upload extends Component {
         let progress = (
           (snapshot.bytesTransferred / snapshot.totalBytes) *
           100
-        ).toFixed(0);
+        ).toFixed();
         console.log("Upload is " + progress + "% completed.");
+
         that.setState({
           progress: progress
         });
       },
       err => {
-        console.log("error with upload - " + err);
+        console.log("Error while uploding file ", err);
       },
 
       // now upload is completed,
       () => {
-        that.setState({
+        this.setState({
           progress: 100
         });
         uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          console.log("downloadURL is =", downloadURL);
-          that.processUpload(downloadURL);
+          // alert(downloadURL);
+          console.log(downloadURL);
+          that.profcessUpload(downloadURL);
         });
       }
     );
@@ -193,10 +175,8 @@ class upload extends Component {
     // });
   };
 
-  processUpload = imageUrl => {
+  profcessUpload = imageURL => {
     // set needed info of user
-
-    //Set needed info
     let imageId = this.state.imageId;
     let userId = f.auth().currentUser.uid;
     let dateTime = Date.now();
@@ -210,34 +190,35 @@ class upload extends Component {
       author: userId,
       caption: caption,
       posted: timestamp,
-      url: imageUrl
+      url: imageURL
     };
 
     // now, add info to realtime-db in two locations. as feed & profile
     // add data to photo-obj and user-object
 
     console.log("f.auth().currentUser.uid ", f.auth().currentUser.uid);
-    // first to add photo to main feed of photos    database.ref("/photos/" + imageId).set(photoObj);
+    // first to add photo to main feed of photos
+    database.ref("/photos/" + imageId).set(photoObj);
 
     // add photosobj to user-json as well.
     database.ref("/users/" + userId + "/photos/" + imageId).set(photoObj);
 
-    alert("Image Uploaded Successfully.");
-    // after uploading photo, reset photo-attribute/ states
+    alert("Image Uploaded in FireBase");
 
+    // after uploading photo, reset photo-attribute/ states
     this.setState({
       uploading: false,
       imageSelected: false,
       caption: "",
       uri: ""
+      // refresh: true
     });
   };
 
   componentDidMount = () => {
     // set variable that=this, for binding
-
-    let that = this;
-    f.auth().onAuthStateChanged(function(user) {
+    var that = this;
+    f.auth().onAuthStateChanged(user => {
       if (user) {
         // Loggedin
         that.setState({
@@ -257,6 +238,7 @@ class upload extends Component {
       <View style={{ flex: 1 }}>
         {this.state.loggedin == true ? (
           // true-> you are loggedin
+
           <View style={{ flex: 1 }}>
             {/*  check if image is selected or not? */}
             {this.state.imageSelected == true ? (
@@ -272,14 +254,15 @@ class upload extends Component {
                     placeholder={"Enter your caption..."}
                     maxLength={100}
                     multiline={true}
-                    numberOfLine={4}
+                    numberOfLines={4}
                     onChangeText={text => this.setState({ caption: text })}
                     style={styles.textInput}
                   />
                   {/* After chossing caption, publish photo */}
-
                   <TouchableOpacity
-                    onPress={() => this.uploadPublish()}
+                    onPress={() => {
+                      this.uploadPublish();
+                    }}
                     style={styles.publishBtn}
                   >
                     <Text style={styles.textOnBtn}>Post on Wall</Text>
@@ -288,6 +271,7 @@ class upload extends Component {
                   {this.state.uploading == true ? (
                     <View style={{ marginTop: 10 }}>
                       <Text>{this.state.progress}%</Text>
+
                       {/* check again if progress is not 100%, then display spinning logo
                           as activity indicator  */}
 
@@ -295,13 +279,11 @@ class upload extends Component {
                         <ActivityIndicator size="small" color="blue" />
                       ) : (
                         // progress is 100%, show done
-
                         <Text>Upload Completed.</Text>
                       )}
                     </View>
                   ) : (
                     // uploading is false then show empty view
-
                     <View />
                   )}
 
@@ -318,7 +300,9 @@ class upload extends Component {
                 <Text style={styles.uploadText}>Upload</Text>
                 <TouchableOpacity
                   style={styles.uploadBtn}
-                  onPress={() => this.findNewImage()}
+                  onPress={() => {
+                    this.findNewImage();
+                  }}
                 >
                   <Text style={styles.textOnBtn}>Select Photo</Text>
                 </TouchableOpacity>
@@ -333,7 +317,6 @@ class upload extends Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
