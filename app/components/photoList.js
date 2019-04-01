@@ -69,7 +69,8 @@ class PhotoList extends Component {
     if (interval > 1) {
       return interval + " hour" + this.pluralCheck(interval);
     }
-    interval = Math.floor(seconds / 60);
+    // for minutes
+    interval = Math.ceil(seconds / 60);
     if (interval > 1) {
       return interval + " minute" + this.pluralCheck(interval);
     }
