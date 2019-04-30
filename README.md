@@ -1,6 +1,6 @@
 # instagram-clone aka Exchange-O-Gram
 
-![Demo-loading... Please Wait...](https://github.com/ganesh-deshmukh/exchange-o-gram/blob/master/app/working-demo.gif)
+![Demo-loading... Please Wait...](https://github.com/ganesh-deshmukh/exchange-o-gram/blob/master/app/Demo.gif)
 
 Steps to run project locally:
 
